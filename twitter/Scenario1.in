@@ -1,0 +1,21 @@
+Ana->1
+Alex->2
+A->3
+Ana->4
+Ana Maria->5
+Anita->6
+Alex->7
+Ana
+Alex
+Ana follows Alex
+Alex
+Ana wall
+Alex wall
+A
+Alex follows A
+A->8
+Alex wall
+A follows Anita
+A
+A wall
+EXIT

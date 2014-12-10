@@ -1,0 +1,16 @@
+Brindu->1
+Ana->2
+Maria->3
+Ioana->4
+Andrei->5
+Gabi->6
+Brindu follows Ana
+Brindu follows Maria
+Brindu follows Ioana
+Ana follows Andrei
+Maria follows Gabi
+Maria follows Brindu
+Gabi follows Ioana
+Brindu people you might know
+Maria people you might know
+EXIT
