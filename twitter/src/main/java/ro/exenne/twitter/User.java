@@ -24,9 +24,8 @@ public class User {
     private String email;
     private String phoneNr;
     private String description;
-    private ArrayList<TimedPosts> notifications;
 
-    private class TimedPosts implements Comparable<TimedPosts> {
+    private class TimedPosts {
 
         private final String post;
         private final Long time;
@@ -43,12 +42,6 @@ public class User {
         protected long getTime() {
             return time;
         }
-
-        @Override
-        public int compareTo(TimedPosts o) {
-            return time.compareTo(o.time);
-        }
-
     }
 
     User(String name) {
@@ -56,7 +49,6 @@ public class User {
         posts = new ArrayList<TimedPosts>();
         followers = new ArrayList<User>();
         allPosts = new ArrayList<TimedPosts>();
-        notifications = new ArrayList<TimedPosts>();
         email = "";
         phoneNr = "";
         description = "";
@@ -116,10 +108,6 @@ public class User {
         this.setDescription(description);
     }
 
-    public void addNotification(String post, long time) {
-        this.notifications.add(new TimedPosts(post, time));
-    }
-
     public void showPersonalPosts(OutputHandler outputHandler) {
         this.show(outputHandler, posts);
     }
@@ -158,14 +146,10 @@ public class User {
             outputHandler.publish("User " + this.getName() + " does not have any info set.\n");
         } else {
             outputHandler.publish("User " + this.getName() + " has the following info:\n");
-            outputHandler.publish("    -Email: " + this.getEmail() +"\n");
-            outputHandler.publish("    -Telephone nr: " + this.getPhone()+"\n");
-            outputHandler.publish("    -Description: " + this.getDescription()+"\n");
+            outputHandler.publish("    -Email: " + this.getEmail() + "\n");
+            outputHandler.publish("    -Telephone nr: " + this.getPhone() + "\n");
+            outputHandler.publish("    -Description: " + this.getDescription() + "\n");
         }
-    }
-
-    public void showNotifications(OutputHandler outputHandler) {
-        this.show(outputHandler, notifications);
     }
 
     private void show(OutputHandler outputHandler, ArrayList<TimedPosts> postsList) {

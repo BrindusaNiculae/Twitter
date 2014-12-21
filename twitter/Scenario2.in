@@ -1,9 +1,13 @@
-Alice->Ciau, Gigel, ce mai faci?
-Gigel->Servus Alice :*...eu fac bine, tu?
-Alice->Binee
-Maricica-> Servus lume
-Alice
-Alice follows Gigel
-Gigel->Alice, esti o stalkerita
-Alice wall
+Ana->1
+Maria->2
+Ana->3
+Maria->4
+Ana wall
+Maria wall
+Ana follows Maria
+Ana wall
+Maria wall
+Ana unfollow Maria
+Ana wall
+Maria wall
 EXIT

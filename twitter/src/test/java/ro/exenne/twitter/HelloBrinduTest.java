@@ -91,38 +91,6 @@ public class HelloBrinduTest {
         assertEquals("Valid output", compareFiles("Scenario5.ok", "Scenario.out"));
     }
 
-    @Test
-    public void testMain6() throws IOException {
-        System.out.println("6");
-        String filenameRead = "Scenario6.in";
-        String filenameWrite = "Scenario.out";
-        FileWriter f;
-        f = new FileWriter(new File(filenameWrite));
-        Twitter twitter = new Twitter();
-        TInput tInput = new TInput();
-        tInput.initializeParameters(twitter, filenameRead, f);
-        twitter.readCommand(tInput);
-        f.flush();
-        f.close();
-        assertEquals("Valid output", compareFiles("Scenario6.ok", "Scenario.out"));
-    }
-
-    @Test
-    public void testMain7() throws IOException {
-        System.out.println("7");
-        String filenameRead = "Scenario7.in";
-        String filenameWrite = "Scenario.out";
-        FileWriter f;
-        f = new FileWriter(new File(filenameWrite));
-        Twitter twitter = new Twitter();
-        TInput tInput = new TInput();
-        tInput.initializeParameters(twitter, filenameRead, f);
-        twitter.readCommand(tInput);
-        f.flush();
-        f.close();
-        assertEquals("Valid output", compareFiles("Scenario7.ok", "Scenario.out"));
-    }
-
     private String compareFiles(String filenameOK, String filenameOUT) throws FileNotFoundException, IOException {
         BufferedReader sOK = new BufferedReader(new FileReader(filenameOK));
         BufferedReader sOUT = new BufferedReader(new FileReader(filenameOUT));

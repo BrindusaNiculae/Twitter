@@ -58,9 +58,6 @@ public class Twitter {
         } else if (command.contains(" see ")) {
             words = command.split(" see ");
             this.seeAnotherProfile();
-        } else if (command.contains(" notifications")) {
-            words = command.split(" notifications");
-            this.showNotifications();
         } else if (command.contains(" people you might know")) {
             words = command.split(" people");
             this.showPeople();
@@ -145,11 +142,6 @@ public class Twitter {
     private void showPeople() {
         this.setUser();
         users.get(userId).getPeopleYouMightKnow(outputHandler);
-    }
-
-    private void showNotifications() {
-        this.setUser();
-        users.get(userId).showNotifications(outputHandler);
     }
 
     private void seeAnotherProfile() throws InvalidUserException, ProfileNotSetException {

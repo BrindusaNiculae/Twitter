@@ -1,14 +1,8 @@
 Ana->1
-Ana->2
-Bianca->3
-Bianca->4
-Ana
-Ana follows Bianca
-Bianca->5
-Bianca->6
-Bianca follows Ana
-Ana->7
-Ana wall
-Ana notifications
-Bianca notifications
+Maria->2
+Ana see Maria profile
+Maria see profile
+Maria edit profile
+Ana see Maria profile
+Maria see profile
 EXIT
