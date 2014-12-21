@@ -224,7 +224,9 @@ public class Twitter {
     private void unfollow() throws InvalidUserException {
         this.setUser();
         String name2 = words[1];
+        System.out.println("Trying to remove: " + name2);
         int i = getUserId(" " + name2 + " ");
+        System.out.println("i = " + i);
         if (i == -1) {
             throw new InvalidUserException(name2);
         } else {

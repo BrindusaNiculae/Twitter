@@ -125,6 +125,7 @@ public class User {
     }
 
     public void showWall(OutputHandler outputHandler) {
+        allPosts = null;
         allPosts = new ArrayList<TimedPosts>();
 
         for (int i = 0; i < this.posts.size(); i++) {
@@ -154,12 +155,12 @@ public class User {
     public void showProfile(OutputHandler outputHandler) throws ProfileNotSetException {
         if (this.getEmail() == "" || this.getPhone() == ""
                 || this.getDescription() == "") {
-            outputHandler.publish("User " + this.getName() + " does not have any info set.");
+            outputHandler.publish("User " + this.getName() + " does not have any info set.\n");
         } else {
             outputHandler.publish("User " + this.getName() + " has the following info:\n");
-            outputHandler.publish("    -Email: " + this.getEmail());
-            outputHandler.publish("    -Telephone nr: " + this.getPhone());
-            outputHandler.publish("    -Description: " + this.getDescription());
+            outputHandler.publish("    -Email: " + this.getEmail() +"\n");
+            outputHandler.publish("    -Telephone nr: " + this.getPhone()+"\n");
+            outputHandler.publish("    -Description: " + this.getDescription()+"\n");
         }
     }
 

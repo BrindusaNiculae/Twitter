@@ -1,0 +1,13 @@
+Ana->1
+Maria->2
+Ana->3
+Maria->4
+Ana wall
+Maria wall
+Ana follows Maria
+Ana wall
+Maria wall
+Ana unfollow Maria
+Ana wall
+Maria wall
+EXIT
