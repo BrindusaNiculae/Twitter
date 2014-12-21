@@ -18,54 +18,55 @@ import java.util.logging.Logger;
 
 public class Twitter {
 
-    private ArrayList<User> users = new ArrayList();
-    private int commandId = 0;
-    private long startTime = 0;
-    String fileWriterName = "Scenario.out";
-    FileWriter fw;
+    private ArrayList<User> users;
+    private int commandId;
+    private static long staticTime;
+    private int userId;
+    private String[] words;
+    private String name;
+    private OutputHandler outputHandler;
 
-    private String[] processCommand(String command) {
-        String[] words;
+    Twitter() {
+        users = new ArrayList();
+        commandId = 0;
+        staticTime = 0;
+        userId = -1;
+        words = null;
+        name = null;
+        outputHandler = null;
+    }
+
+    private void processCommand(String command) throws InvalidUserException, ProfileNotSetException, FileNotFoundException, InvalidEditProfileInputException, InvalidMailFormatException, InvalidPhoneNrFormatException {
         if (command.contains("->")) {
             words = command.split("->");
-            commandId = 1;
-            return words;
+            this.addPost();
         } else if (command.contains(" follows ")) {
             words = command.split(" follows ");
-            commandId = 2;
-            return words;
+            this.follow();
         } else if (command.contains(" wall")) {
             words = command.split(" wall");
-            commandId = 3;
-            return words;
+            this.showWall();
         } else if (command.contains(" unfollow ")) {
             words = command.split(" unfollow ");
-            commandId = 4;
-            return words;
+            this.unfollow();
         } else if (command.contains(" see profile")) {
             words = command.split(" see profile");
-            commandId = 5;
-            return words;
+            this.seeProfile();
         } else if (command.contains(" edit profile")) {
             words = command.split(" edit profile");
-            commandId = 6;
-            return words;
+            this.editProfile();
         } else if (command.contains(" see ")) {
             words = command.split(" see ");
-            commandId = 7;
-            return words;
+            this.seeAnotherProfile();
         } else if (command.contains(" notifications")) {
             words = command.split(" notifications");
-            commandId = 8;
-            return words;
+            this.showNotifications();
         } else if (command.contains(" people you might know")) {
             words = command.split(" people");
-            commandId = 9;
-            return words;
+            this.showPeople();
         } else {
-            commandId = 0;
-            words = command.split("->");
-            return words;
+            words = command.split(" ");
+            this.showPersonalPosts();
         }
     }
 
@@ -73,297 +74,166 @@ public class Twitter {
 
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
-
             String nameTest = " " + user.getName() + " ";
-            if (nameTest.contains(name) && name.contains(nameTest)) {
+            if (nameTest.equals(name)) {
                 return i;
             }
         }
         return -1;
     }
 
-    private void getFollowees(String name, String post, long time) {
-        for (User user : users) {
-            if (!user.getName().equals(name)) {
-                for (User followee : user.getFollowers()) {
-                    if (followee.getName().equals(name)) {
-                        String newPost = name + ": ";
-                        if (post.length() < 20) {
-                            newPost += post;
-                        } else {
-                            char[] postToChar = post.toCharArray();
-                            for (int i = 0; i < 20; i++) {
-                                newPost += postToChar[i];
-                            }
-                        }
-                        user.addNotification(newPost, time);
-                    }
-                }
-            }
-        }
-    }
-
-    public void tweet(String command) throws InvalidUserException,
+    public void tweet(String command, OutputHandler outputHandler) throws InvalidUserException,
             ProfileNotSetException, InvalidEditProfileInputException,
             InvalidPhoneNrFormatException, InvalidMailFormatException, IOException {
-        String words[] = processCommand(command);
-        String name = " " + words[0] + " ";
-        int i = getUserId(name);
 
-        if (i > -1) {
-            if (words.length == 1 && commandId != 3 && commandId != 5
-                    && commandId != 6 && commandId != 8) {
-                users.get(i).showPersonalPosts();
-            } else {
-                switch (commandId) {
-                    case 1:
-                        long time = System.nanoTime();
-                        users.get(i).addPost(words[1], time);
-                        break;
-                    case 2:
-                        String name2 = words[1];
-                        int j = getUserId(" " + name2 + " ");
-                        if (j == -1) {
-                            throw new InvalidUserException(name2);
-                        } else {
-                            users.get(i).addFollower(users.get(j));
-                        }
-                        break;
-                    case 3:
-                        users.get(i).showWall();
-                        break;
-                    case 4:
-                        name2 = words[1];
-                        j = getUserId(" " + name2 + " ");
-                        if (j == -1) {
-                            throw new InvalidUserException(name2);
-                        } else {
-                            users.get(i).removeFollower(users.get(j));
-                        }
-                        break;
-                    case 5:
-                        users.get(i).showProfile();
-                        break;
-                    case 6:
-                        String scanner;
-                        BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
+        words = null;
+        this.outputHandler = outputHandler;
+        processCommand(command);
+    }
 
-                        String email,
-                         phoneNr,
-                         description;
-                        System.out.println("Set email:");
-                        scanner = buff.readLine();
-                        email = scanner;
-                        if (!email.contains("@")) {
-                            throw new InvalidMailFormatException();
-                        }
+    void readCommand(InputHandler inputHandler) {
+        inputHandler.read();
+    }
 
-                        System.out.println("Set phone number: ");
-                        scanner = buff.readLine();
-                        phoneNr = scanner;
+    private void setUser() {
+        name = " " + words[0] + " ";
+        userId = getUserId(name);
+    }
 
-                        if (phoneNr.length() > 10) {
-                            throw new InvalidPhoneNrFormatException();
-                        }
-                        for (char c : phoneNr.toCharArray()) {
-                            if (c < '0' || c > '9') {
-                                throw new InvalidPhoneNrFormatException();
-                            }
-                        }
+    private long getTime() {
+        staticTime++;
+        return (staticTime);
+    }
 
-                        System.out.println("Set description: ");
-                        scanner = buff.readLine();
-                        description = scanner;
-
-                        users.get(i).editProfile(email, phoneNr, description);
-                        break;
-
-                    case 7:
-                        name2 = words[1];
-                        String[] aux = name2.split(" profile");
-                        j = getUserId(" " + aux[0] + " ");
-                        if (j == -1) {
-                            throw new InvalidUserException(name2);
-                        } else {
-                            users.get(j).showProfile();
-                        }
-                        break;
-                    case 8:
-                        users.get(i).showNotifications();
-                        break;
-                    case 9:
-                        users.get(i).getPeopleYouMightKnow();
-                        break;
-                    default:
-                        break;
-                }
-            }
+    private void addUserAndPost() throws InvalidUserException {
+        if (words.length == 1) {
+            throw new InvalidUserException(words[0]);
+        } else {
+            User temp = new User(words[0]);
+            long time = this.getTime();
+            temp.addPost(words[1], time);
+            users.add(temp);
         }
+    }
 
+    private void addPost() throws InvalidUserException {
+        this.setUser();
+        if (userId == -1) {
+            this.addUserAndPost();
+        } else {
+            long time = this.getTime();
+            users.get(userId).addPost(words[1], time);
+        }
+    }
+
+    private void follow() throws InvalidUserException {
+        this.setUser();
+        String name2 = words[1];
+        int i = getUserId(" " + name2 + " ");
         if (i == -1) {
-            if (words.length == 1) {
-                throw new InvalidUserException(words[0]);
-            } else if (commandId == 1) {
-                User temp = new User(words[0]);
-                long time = System.nanoTime();
-                temp.addPost(words[1], time);
-                users.add(temp);
-            }
+            throw new InvalidUserException(name2);
+        } else {
+            users.get(userId).addFollower(users.get(i));
         }
     }
 
-    public void writeToFile(String command) throws IOException, InvalidUserException,
-            InvalidMailFormatException, InvalidEditProfileInputException,
-            InvalidPhoneNrFormatException, ProfileNotSetException {
-        String words[] = processCommand(command);
-        String name = " " + words[0] + " ";
-        int i = getUserId(name);
+    private void showWall() {
+        this.setUser();
+        users.get(userId).showWall(outputHandler);
+    }
 
-        if (i > -1) {
-            if (words.length == 1 && commandId != 3 && commandId != 5
-                    && commandId != 6 && commandId != 8) {
-                users.get(i).showPersonalPostsToFile(fw);
-            } else {
-                switch (commandId) {
-                    case 1:
-                        long time = startTime;
-                        startTime += 1;
-                        users.get(i).addPost(words[1], time);
-                        getFollowees(words[0], words[1], time);
-                        break;
-                    case 2:
-                        String name2 = words[1];
-                        int j = getUserId(" " + name2 + " ");
-                        if (j == -1) {
-                            throw new InvalidUserException(name2);
-                        } else {
-                            users.get(i).addFollower(users.get(j));
-                        }
-                        break;
-                    case 3:
-                        users.get(i).showWallToFile(fw);
-                        break;
-                    case 4:
-                        name2 = words[1];
-                        j = getUserId(" " + name2 + " ");
-                        if (j == -1) {
-                            throw new InvalidUserException(name2);
-                        } else {
-                            users.get(i).removeFollower(users.get(j));
-                        }
-                        break;
-                    case 5:
-                        users.get(i).showProfileToFile(fw);
-                        break;
-                    case 6:
-                        Scanner scanner = new Scanner(new File("editProfile.in"));
-                        String email,
-                         phoneNr,
-                         description;
-                        if (!scanner.hasNext()) {
-                            throw new InvalidEditProfileInputException();
-                        } else {
-                            email = scanner.nextLine();
-                            if (!email.contains("@")) {
-                                throw new InvalidMailFormatException();
-                            }
-                        }
-                        if (!scanner.hasNext()) {
-                            throw new InvalidEditProfileInputException();
-                        } else {
-                            phoneNr = scanner.nextLine();
-                            if (phoneNr.length() > 10) {
-                                throw new InvalidPhoneNrFormatException();
-                            }
-                            for (char c : phoneNr.toCharArray()) {
-                                if (c < '0' || c > '9') {
-                                    throw new InvalidPhoneNrFormatException();
-                                }
-                            }
-                        }
-                        if (!scanner.hasNext()) {
-                            throw new InvalidEditProfileInputException();
-                        } else {
-                            description = scanner.nextLine();
-                        }
-                        users.get(i).editProfile(email, phoneNr, description);
-                        break;
-                    case 7:
-                        name2 = words[1];
-                        String[] aux = name2.split(" profile");
-                        j = getUserId(" " + aux[0] + " ");
-                        if (j == -1) {
-                            throw new InvalidUserException(name2);
-                        } else {
-                            users.get(j).showProfileToFile(fw);
-                        }
-                        break;
-                    case 8:
-                        users.get(i).showNotificationsToFile(fw);
-                        break;
-                    case 9:
-                        users.get(i).getPeopleYouMightKnowToFile(fw);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
+    private void showPeople() {
+        this.setUser();
+        users.get(userId).getPeopleYouMightKnow(outputHandler);
+    }
+
+    private void showNotifications() {
+        this.setUser();
+        users.get(userId).showNotifications(outputHandler);
+    }
+
+    private void seeAnotherProfile() throws InvalidUserException, ProfileNotSetException {
+        this.setUser();
+        String name2 = words[1];
+        String[] aux = name2.split(" profile");
+        int i = getUserId(" " + aux[0] + " ");
         if (i == -1) {
-            if (words.length == 1) {
-                throw new InvalidUserException(words[0]);
-            } else if (commandId == 1) {
-                User temp = new User(words[0]);
-                long time = startTime;
-                startTime += 1;
-                temp.addPost(words[1], time);
-                users.add(temp);
-            }
+            throw new InvalidUserException(name2);
+        } else {
+            users.get(i).showProfile(outputHandler);
         }
-
     }
 
-    public void readFile(String filename) throws FileNotFoundException, IOException, InvalidUserException {
-        Scanner scanner = new Scanner(new File(filename));
-        fw = new FileWriter(new File(fileWriterName));
+    private String setEmail(Scanner scanner) throws InvalidEditProfileInputException, InvalidMailFormatException {
+        String email;
+        if (!scanner.hasNext()) {
+            throw new InvalidEditProfileInputException();
+        } else {
+            email = scanner.nextLine();
+            if (!email.contains("@")) {
+                throw new InvalidMailFormatException();
+            }
+        }
+        return email;
+    }
 
-        while (true) {
-            String s = scanner.nextLine();
-            if (s.contains("EXIT")) {
-                break;
-            } else {
-                try {
-                    writeToFile(s);
-                } catch (InvalidMailFormatException ex) {
-                    Logger.getLogger(Twitter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InvalidEditProfileInputException ex) {
-                    Logger.getLogger(Twitter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InvalidPhoneNrFormatException ex) {
-                    Logger.getLogger(Twitter.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ProfileNotSetException ex) {
-                    Logger.getLogger(Twitter.class.getName()).log(Level.SEVERE, null, ex);
+    private String setPhoneNr(Scanner scanner) throws InvalidEditProfileInputException, InvalidPhoneNrFormatException {
+        String phoneNr;
+        if (!scanner.hasNext()) {
+            throw new InvalidEditProfileInputException();
+        } else {
+            phoneNr = scanner.nextLine();
+            if (phoneNr.length() > 10) {
+                throw new InvalidPhoneNrFormatException();
+            }
+            for (char c : phoneNr.toCharArray()) {
+                if (c < '0' || c > '9') {
+                    throw new InvalidPhoneNrFormatException();
                 }
             }
-
         }
-        fw.flush();
-        fw.close();
+        return phoneNr;
+    }
+
+    private String setDescription(Scanner scanner) throws InvalidEditProfileInputException {
+        String description;
+        if (!scanner.hasNext()) {
+            throw new InvalidEditProfileInputException();
+        } else {
+            description = scanner.nextLine();
+        }
+        return description;
+    }
+
+    private void editProfile() throws FileNotFoundException, InvalidEditProfileInputException, InvalidMailFormatException, InvalidPhoneNrFormatException {
+        this.setUser();
+        Scanner scanner = new Scanner(new File("editProfile.in"));
+        String email = setEmail(scanner);
+        String phoneNr = setPhoneNr(scanner);
+        String description = setDescription(scanner);
+
+        users.get(userId).editProfile(email, phoneNr, description);
 
     }
 
-    public String compareFiles(String filenameOK, String filenameOUT) throws FileNotFoundException {
-        Scanner sOK = new Scanner(new File(filenameOK));
-        Scanner sOUT = new Scanner(new File(filenameOUT));
+    private void seeProfile() throws ProfileNotSetException {
+        this.setUser();
+        users.get(userId).showProfile(outputHandler);
+    }
 
-        while (sOUT.hasNext()) {
-            String s1 = sOK.nextLine();
-            String s2 = sOUT.nextLine();
-
-            if (!s2.contains(s1)) {
-                System.out.println(s2 + " " + s1);
-                return "Invalid output";
-            }
+    private void unfollow() throws InvalidUserException {
+        this.setUser();
+        String name2 = words[1];
+        int i = getUserId(" " + name2 + " ");
+        if (i == -1) {
+            throw new InvalidUserException(name2);
+        } else {
+            users.get(userId).removeFollower(users.get(i));
         }
-        return "Valid output";
+    }
+
+    private void showPersonalPosts() {
+        this.setUser();
+        users.get(userId).showPersonalPosts(outputHandler);
     }
 }

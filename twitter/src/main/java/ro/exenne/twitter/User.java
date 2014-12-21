@@ -21,10 +21,9 @@ public class User {
     private final ArrayList<TimedPosts> posts;
     private ArrayList<TimedPosts> allPosts;
     private final ArrayList<User> followers;
-    private long endTime = 550000000;
-    private String email = "";
-    private String telephone = "";
-    private String description = "";
+    private String email;
+    private String phoneNr;
+    private String description;
     private ArrayList<TimedPosts> notifications;
 
     private class TimedPosts implements Comparable<TimedPosts> {
@@ -58,6 +57,9 @@ public class User {
         followers = new ArrayList<User>();
         allPosts = new ArrayList<TimedPosts>();
         notifications = new ArrayList<TimedPosts>();
+        email = "";
+        phoneNr = "";
+        description = "";
     }
 
     public String getName() {
@@ -93,11 +95,11 @@ public class User {
     }
 
     public String getPhone() {
-        return telephone;
+        return phoneNr;
     }
 
     public void setPhone(String tel) {
-        telephone = tel;
+        phoneNr = tel;
     }
 
     public String getDescription() {
@@ -108,45 +110,33 @@ public class User {
         description = descr;
     }
 
-    public void editProfile(String mail, String tel, String desc) {
-        this.setEmail(mail);
-        this.setPhone(tel);
-        this.setDescription(desc);
+    public void editProfile(String email, String phoneNr, String description) {
+        this.setEmail(email);
+        this.setPhone(phoneNr);
+        this.setDescription(description);
     }
 
     public void addNotification(String post, long time) {
         this.notifications.add(new TimedPosts(post, time));
     }
 
-    public void showPersonalPosts() {
-        for (TimedPosts post : posts) {
-            long elapsedTimeInSec = (System.nanoTime() - post.getTime()) / 1000000000;
-            if (elapsedTimeInSec < 60) {
-                int elapsedTime = (int) elapsedTimeInSec;
-                System.out.println(post.getPost() + "(" + elapsedTime
-                        + " seconds ago)");
-
-            } else {
-                int elapsedTime = (int) (elapsedTimeInSec / 60);
-                System.out.println(post.getPost() + "(" + elapsedTime
-                        + " minutes ago)");
-            }
-        }
+    public void showPersonalPosts(OutputHandler outputHandler) {
+        this.show(outputHandler, posts);
     }
 
-    public void showWall() {
+    public void showWall(OutputHandler outputHandler) {
         allPosts = new ArrayList<TimedPosts>();
 
         for (int i = 0; i < this.posts.size(); i++) {
             String newPost = this.name + ": " + this.posts.get(i).getPost();
-            Long time = posts.get(i).getTime();
+            long time = posts.get(i).getTime();
             allPosts.add(new TimedPosts(newPost, time));
         }
 
         for (User follower : followers) {
             for (TimedPosts post : follower.getPosts()) {
                 String newPost = follower.getName() + ": " + post.getPost();
-                Long time = post.getTime();
+                long time = post.getTime();
                 allPosts.add(new TimedPosts(newPost, time));
             }
         }
@@ -154,59 +144,50 @@ public class User {
 
             @Override
             public int compare(TimedPosts o1, TimedPosts o2) {
-                return (int) ((o1.time - o2.time) / 1000000000);
+                return (int) (o1.time - o2.time);
             }
         });
 
-        for (TimedPosts post : allPosts) {
-            long elapsedTimeInSec = (System.nanoTime() - post.getTime()) / 1000000000;
-            if (elapsedTimeInSec < 60) {
-                int elapsedTime = (int) elapsedTimeInSec;
-                System.out.println(post.getPost() + "(" + elapsedTime
-                        + " seconds ago)");
-            } else {
-                int elapsedTime = (int) (elapsedTimeInSec / 60);
-                System.out.println(post.getPost() + "(" + elapsedTime
-                        + " minutes ago)");
-
-            }
-        }
+        this.show(outputHandler, allPosts);
     }
 
-    public void showProfile() throws ProfileNotSetException {
+    public void showProfile(OutputHandler outputHandler) throws ProfileNotSetException {
         if (this.getEmail() == "" || this.getPhone() == ""
                 || this.getDescription() == "") {
-            System.out.println("User " + this.getName() + " does not have any info set.");
+            outputHandler.publish("User " + this.getName() + " does not have any info set.");
         } else {
-            System.out.println("User " + this.getName() + " has the following info:\n");
-            System.out.println("    -Email: " + this.getEmail());
-            System.out.println("    -Telephone nr: " + this.getPhone());
-            System.out.println("    -Description: " + this.getDescription());
+            outputHandler.publish("User " + this.getName() + " has the following info:\n");
+            outputHandler.publish("    -Email: " + this.getEmail());
+            outputHandler.publish("    -Telephone nr: " + this.getPhone());
+            outputHandler.publish("    -Description: " + this.getDescription());
         }
     }
 
-    public void showNotifications() {
+    public void showNotifications(OutputHandler outputHandler) {
+        this.show(outputHandler, notifications);
+    }
 
-        for (TimedPosts post : notifications) {
-            long elapsedTimeInSec = (System.nanoTime() - post.getTime()) / 1000000000;
+    private void show(OutputHandler outputHandler, ArrayList<TimedPosts> postsList) {
+        for (TimedPosts post : postsList) {
+            long elapsedTimeInSec = post.getTime();
             if (elapsedTimeInSec < 60) {
                 int elapsedTime = (int) elapsedTimeInSec;
-                System.out.println(post.getPost() + "(" + elapsedTime
+                outputHandler.publish(post.getPost() + "(" + elapsedTime
                         + " seconds ago)\n");
             } else {
                 int elapsedTime = (int) (elapsedTimeInSec / 60);
-                System.out.println(post.getPost() + "(" + elapsedTime
+                outputHandler.publish(post.getPost() + "(" + elapsedTime
                         + " minutes ago)\n");
             }
         }
     }
 
-    public void getPeopleYouMightKnow() {
+    public void getPeopleYouMightKnow(OutputHandler outputHandler) {
         ArrayList<String> ppl = new ArrayList<String>();
         for (User user : followers) {
             if (user.getFollowers().size() == 0) {
                 ppl.add("You might know " + user.getName() + "'s followees..."
-                        + "but they don't follow anybody.:( ");
+                        + "but they don't follow anybody.:( \n");
             } else {
                 for (User personYouMightKnow : user.getFollowers()) {
                     if (!personYouMightKnow.getName().equals(this.getName())) {
@@ -223,125 +204,9 @@ public class User {
                 }
             }
         }
-        System.out.println("Dear " + this.getName());
+        outputHandler.publish("Dear " + this.getName() + ":\n");
         for (String s : ppl) {
-            System.out.println(s);
-        }
-
-    }
-
-    public void showProfileToFile(FileWriter f) throws IOException, ProfileNotSetException {
-        if (this.getEmail() == "" || this.getPhone() == ""
-                || this.getDescription() == "") {
-            f.write("User " + this.getName() + " does not have any info set.\n");
-        } else {
-            f.write("User " + this.getName() + " has the following info:\n");
-            f.write("    -Email: " + this.getEmail());
-            f.write("\n    -Telephone nr: " + this.getPhone());
-            f.write("\n    -Description: " + this.getDescription());
-            f.write("\n");
+            outputHandler.publish(s);
         }
     }
-
-    public void showWallToFile(FileWriter f) throws IOException {
-        allPosts = new ArrayList<TimedPosts>();
-
-        for (int i = 0; i < this.posts.size(); i++) {
-            String newPost = this.name + ": " + this.posts.get(i).getPost();
-            Long time = posts.get(i).getTime();
-            allPosts.add(new TimedPosts(newPost, time));
-
-        }
-
-        for (User follower : followers) {
-            for (TimedPosts post : follower.getPosts()) {
-                String newPost = follower.getName() + ": " + post.getPost();
-                Long time = post.getTime();
-                allPosts.add(new TimedPosts(newPost, time));
-            }
-        }
-        Collections.sort(allPosts, new Comparator<TimedPosts>() {
-
-            @Override
-            public int compare(TimedPosts o1, TimedPosts o2) {
-                return (int) ((o1.time - o2.time));
-            }
-        });
-
-        for (TimedPosts post : allPosts) {
-            long elapsedTimeInSec = (endTime - post.getTime()) / 1000000000;
-            endTime += 1000000000;
-            if (elapsedTimeInSec < 60) {
-                int elapsedTime = (int) elapsedTimeInSec;
-                f.write(post.getPost() + "(" + elapsedTime
-                        + " seconds ago)\n");
-            } else {
-                int elapsedTime = (int) (elapsedTimeInSec / 60);
-                f.write(post.getPost() + "(" + elapsedTime
-                        + " minutes ago)\n");
-            }
-        }
-    }
-
-    public void showPersonalPostsToFile(FileWriter f) throws IOException {
-        for (TimedPosts post : posts) {
-            long elapsedTimeInSec = (endTime - post.getTime()) / 1000000000;
-            endTime += 1000000000;
-            if (elapsedTimeInSec < 60) {
-                int elapsedTime = (int) elapsedTimeInSec;
-                f.write(post.getPost() + "(" + elapsedTime
-                        + " seconds ago)\n");
-            } else {
-                int elapsedTime = (int) (elapsedTimeInSec / 60);
-                f.write(post.getPost() + "(" + elapsedTime
-                        + " minutes ago)\n");
-            }
-        }
-    }
-
-    public void showNotificationsToFile(FileWriter f) throws IOException {
-
-        for (TimedPosts post : notifications) {
-            long elapsedTimeInSec = (endTime - post.getTime()) / 1000000000;
-            endTime += 1000000000;
-            if (elapsedTimeInSec < 60) {
-                int elapsedTime = (int) elapsedTimeInSec;
-                f.write(post.getPost() + "(" + elapsedTime
-                        + " seconds ago)\n");
-            } else {
-                int elapsedTime = (int) (elapsedTimeInSec / 60);
-                f.write(post.getPost() + "(" + elapsedTime
-                        + " minutes ago)\n");
-            }
-        }
-    }
-
-    public void getPeopleYouMightKnowToFile(FileWriter f) throws IOException {
-        ArrayList<String> ppl = new ArrayList<String>();
-        for (User user : followers) {
-            if (user.getFollowers().size() == 0) {
-                ppl.add("The user: " + user.getName() + " doesn't follow anybody.\n");
-            } else {
-                for (User personYouMightKnow : user.getFollowers()) {
-                    if (!personYouMightKnow.getName().equals(this.getName())) {
-                        boolean alreadyAdded = false;
-                        for (String aux : ppl) {
-                            if (aux.contains(personYouMightKnow.getName())) {
-                                alreadyAdded = true;
-                            }
-                        }
-                        if (!alreadyAdded) {
-                            ppl.add("You might know: " + personYouMightKnow.getName() + ".\n");
-                        }
-                    }
-                }
-            }
-        }
-        f.write("Dear " + this.getName() + ":\n");
-        for (String s : ppl) {
-            f.write(s);
-        }
-
-    }
-
 }
