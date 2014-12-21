@@ -21,7 +21,9 @@ public class HelloBrinduTest {
         String filenameWrite = "Scenario.out";
         FileWriter f = new FileWriter(new File(filenameWrite));
         Twitter twitter = new Twitter();
-        twitter.readCommand(new TestInput(twitter, filenameRead, f));
+        TInput tInput = new TInput();
+        tInput.initializeParameters(twitter, filenameRead, f);
+        twitter.readCommand(tInput);
         f.flush();
         f.close();
         assertEquals("Valid output", compareFiles("Scenario1.ok", "Scenario.out"));
@@ -35,7 +37,9 @@ public class HelloBrinduTest {
         String filenameWrite = "Scenario.out";
         FileWriter f = new FileWriter(new File(filenameWrite));
         Twitter twitter = new Twitter();
-        twitter.readCommand(new TestInput(twitter, filenameRead, f));
+        TInput tInput = new TInput();
+        tInput.initializeParameters(twitter, filenameRead, f);
+        twitter.readCommand(tInput);
         f.flush();
         f.close();
         assertEquals("Valid output", compareFiles("Scenario2.ok", "Scenario.out"));
@@ -48,7 +52,9 @@ public class HelloBrinduTest {
         String filenameWrite = "Scenario.out";
         FileWriter f = new FileWriter(new File(filenameWrite));
         Twitter twitter = new Twitter();
-        twitter.readCommand(new TestInput(twitter, filenameRead, f));
+        TInput tInput = new TInput();
+        tInput.initializeParameters(twitter, filenameRead, f);
+        twitter.readCommand(tInput);
         f.flush();
         f.close();
         assertEquals("Valid output", compareFiles("Scenario3.ok", "Scenario.out"));
@@ -62,7 +68,9 @@ public class HelloBrinduTest {
         String filenameWrite = "Scenario.out";
         FileWriter f = new FileWriter(new File(filenameWrite));
         Twitter twitter = new Twitter();
-        twitter.readCommand(new TestInput(twitter, filenameRead, f));
+        TInput tInput = new TInput();
+        tInput.initializeParameters(twitter, filenameRead, f);
+        twitter.readCommand(tInput);
         f.flush();
         f.close();
         assertEquals("Valid output", compareFiles("Scenario4.ok", "Scenario.out"));
@@ -77,7 +85,9 @@ public class HelloBrinduTest {
         FileWriter f;
         f = new FileWriter(new File(filenameWrite));
         Twitter twitter = new Twitter();
-        twitter.readCommand(new TestInput(twitter, filenameRead, f));
+        TInput tInput = new TInput();
+        tInput.initializeParameters(twitter, filenameRead, f);
+        twitter.readCommand(tInput);
         f.flush();
         f.close();
         assertEquals("Valid output", compareFiles("Scenario5.ok", "Scenario.out"));
@@ -102,13 +112,19 @@ public class HelloBrinduTest {
     }
 }
 
-class TestInput implements InputHandler {
+class TInput implements InputHandler {
 
     Twitter twitter;
     String filenameRead;
     FileWriter f;
 
-    public TestInput(Twitter twitter, String filenameRead, FileWriter f) {
+    public TInput() {
+        this.twitter = new Twitter();
+        this.filenameRead = null;
+        this.f = null;
+    }
+
+    public void initializeParameters(Twitter twitter, String filenameRead, FileWriter f) {
         this.twitter = twitter;
         this.filenameRead = filenameRead;
         this.f = f;
@@ -129,7 +145,9 @@ class TestInput implements InputHandler {
             } else {
                 try {
                     try {
-                        twitter.tweet(s, new TestOutput(f));
+                        TOutput tOutput = new TOutput();
+                        tOutput.initializeParameter(f);
+                        twitter.tweet(s, tOutput);
                     } catch (IOException ex) {
                         Logger.getLogger(HelloBrindu.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -150,11 +168,15 @@ class TestInput implements InputHandler {
     }
 }
 
-class TestOutput implements OutputHandler {
+class TOutput implements OutputHandler {
 
     FileWriter f;
 
-    public TestOutput(FileWriter f) throws IOException {
+    public TOutput() {
+        this.f = null;
+    }
+
+    public void initializeParameter(FileWriter f) {
         this.f = f;
     }
 
@@ -163,7 +185,7 @@ class TestOutput implements OutputHandler {
         try {
             f.write(s);
         } catch (IOException ex) {
-            Logger.getLogger(TestOutput.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TOutput.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
