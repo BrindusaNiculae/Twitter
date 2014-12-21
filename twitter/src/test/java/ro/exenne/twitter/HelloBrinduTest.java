@@ -108,7 +108,7 @@ class TestInput implements InputHandler {
     String filenameRead;
     FileWriter f;
 
-    TestInput(Twitter twitter, String filenameRead, FileWriter f) {
+    public TestInput(Twitter twitter, String filenameRead, FileWriter f) {
         this.twitter = twitter;
         this.filenameRead = filenameRead;
         this.f = f;
@@ -154,7 +154,7 @@ class TestOutput implements OutputHandler {
 
     FileWriter f;
 
-    TestOutput(FileWriter f) throws IOException {
+    public TestOutput(FileWriter f) throws IOException {
         this.f = f;
     }
 
