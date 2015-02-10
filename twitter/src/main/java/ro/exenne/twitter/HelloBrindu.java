@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class HelloBrindu {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ProfileNotSetException, InvalidUserException {
         Twitter twitter = new Twitter();
         twitter.readCommand(new StandardInput(twitter));
 
