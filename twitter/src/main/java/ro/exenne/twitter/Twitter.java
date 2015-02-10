@@ -88,7 +88,7 @@ public class Twitter {
         processCommand(command);
     }
 
-    void readCommand(InputHandler inputHandler) {
+    void readCommand(InputHandler inputHandler) throws ProfileNotSetException, InvalidUserException {
         inputHandler.read();
     }
 
@@ -226,8 +226,12 @@ public class Twitter {
         }
     }
 
-    private void showPersonalPosts() {
+    private void showPersonalPosts() throws InvalidUserException {
         this.setUser();
-        users.get(userId).showPersonalPosts(outputHandler);
+        if (userId == -1) {
+            throw new InvalidUserException(name);
+        } else {
+            users.get(userId).showPersonalPosts(outputHandler);
+        }
     }
 }

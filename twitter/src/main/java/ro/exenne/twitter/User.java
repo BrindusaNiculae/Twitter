@@ -143,7 +143,7 @@ public class User {
     public void showProfile(OutputHandler outputHandler) throws ProfileNotSetException {
         if (this.getEmail() == "" || this.getPhone() == ""
                 || this.getDescription() == "") {
-            outputHandler.publish("User " + this.getName() + " does not have any info set.\n");
+            throw new ProfileNotSetException();
         } else {
             outputHandler.publish("User " + this.getName() + " has the following info:\n");
             outputHandler.publish("    -Email: " + this.getEmail() + "\n");

@@ -1,5 +1,6 @@
 package ro.exenne.twitter;
 
+import java.awt.color.ProfileDataException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,86 +10,131 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class HelloBrinduTest {
+     @Test
+     public void test1() throws IOException, ProfileNotSetException, InvalidUserException {
+     System.out.println("1");
+     String filenameRead = "Scenario1.in";
+     String filenameWrite = "Scenario.out";
+     FileWriter f = new FileWriter(new File(filenameWrite));
+     Twitter twitter = new Twitter();
+     TInput tInput = new TInput();
+     tInput.initializeParameters(twitter, filenameRead, f);
+     twitter.readCommand(tInput);
+     f.flush();
+     f.close();
+     assertEquals("Valid output", compareFiles("Scenario1.ok", "Scenario.out"));
+     }
 
-    @Test
-    public void testMain1() throws IOException {
-        System.out.println("1");
-        String filenameRead = "Scenario1.in";
-        String filenameWrite = "Scenario.out";
-        FileWriter f = new FileWriter(new File(filenameWrite));
-        Twitter twitter = new Twitter();
-        TInput tInput = new TInput();
-        tInput.initializeParameters(twitter, filenameRead, f);
-        twitter.readCommand(tInput);
-        f.flush();
-        f.close();
-        assertEquals("Valid output", compareFiles("Scenario1.ok", "Scenario.out"));
-    }
+     @Test
+     public void test2() throws IOException, ProfileNotSetException, InvalidUserException {
 
-    @Test
-    public void testMain2() throws IOException {
+     System.out.println("2");
+     String filenameRead = "Scenario2.in";
+     String filenameWrite = "Scenario.out";
+     FileWriter f = new FileWriter(new File(filenameWrite));
+     Twitter twitter = new Twitter();
+     TInput tInput = new TInput();
+     tInput.initializeParameters(twitter, filenameRead, f);
+     twitter.readCommand(tInput);
+     f.flush();
+     f.close();
+     assertEquals("Valid output", compareFiles("Scenario2.ok", "Scenario.out"));
+     }
 
-        System.out.println("2");
-        String filenameRead = "Scenario2.in";
-        String filenameWrite = "Scenario.out";
-        FileWriter f = new FileWriter(new File(filenameWrite));
-        Twitter twitter = new Twitter();
-        TInput tInput = new TInput();
-        tInput.initializeParameters(twitter, filenameRead, f);
-        twitter.readCommand(tInput);
-        f.flush();
-        f.close();
-        assertEquals("Valid output", compareFiles("Scenario2.ok", "Scenario.out"));
-    }
+     @Test
+     public void test3() throws IOException, ProfileNotSetException, InvalidUserException {
+     System.out.println("3");
+     String filenameRead = "Scenario3.in";
+     String filenameWrite = "Scenario.out";
+     FileWriter f = new FileWriter(new File(filenameWrite));
+     Twitter twitter = new Twitter();
+     TInput tInput = new TInput();
+     tInput.initializeParameters(twitter, filenameRead, f);
+     twitter.readCommand(tInput);
+     f.flush();
+     f.close();
+     assertEquals("Valid output", compareFiles("Scenario3.ok", "Scenario.out"));
+     }
 
-    @Test
-    public void testMain3() throws IOException {
-        System.out.println("3");
-        String filenameRead = "Scenario3.in";
-        String filenameWrite = "Scenario.out";
-        FileWriter f = new FileWriter(new File(filenameWrite));
-        Twitter twitter = new Twitter();
-        TInput tInput = new TInput();
-        tInput.initializeParameters(twitter, filenameRead, f);
-        twitter.readCommand(tInput);
-        f.flush();
-        f.close();
-        assertEquals("Valid output", compareFiles("Scenario3.ok", "Scenario.out"));
-    }
+     @Test
+     public void test4() throws IOException, ProfileNotSetException, InvalidUserException {
+     System.out.println("4");
+     String filenameRead = "Scenario4.in";
+     String filenameWrite = "Scenario.out";
+     FileWriter f = new FileWriter(new File(filenameWrite));
+     Twitter twitter = new Twitter();
+     TInput tInput = new TInput();
+     tInput.initializeParameters(twitter, filenameRead, f);
+     twitter.readCommand(tInput);
+     f.flush();
+     f.close();
+     assertEquals("Valid output", compareFiles("Scenario4.ok", "Scenario.out"));
+     }
 
-    @Test
-    public void testMain4() throws IOException {
-        System.out.println("4");
-        String filenameRead = "Scenario4.in";
-        String filenameWrite = "Scenario.out";
-        FileWriter f = new FileWriter(new File(filenameWrite));
-        Twitter twitter = new Twitter();
-        TInput tInput = new TInput();
-        tInput.initializeParameters(twitter, filenameRead, f);
-        twitter.readCommand(tInput);
-        f.flush();
-        f.close();
-        assertEquals("Valid output", compareFiles("Scenario4.ok", "Scenario.out"));
-    }
+     @Test
+     public void test5() throws IOException, ProfileNotSetException, InvalidUserException {
+     System.out.println("5");
+     String filenameRead = "Scenario5.in";
+     String filenameWrite = "Scenario.out";
+     FileWriter f;
+     f = new FileWriter(new File(filenameWrite));
+     Twitter twitter = new Twitter();
+     TInput tInput = new TInput();
+     tInput.initializeParameters(twitter, filenameRead, f);
+     twitter.readCommand(tInput);
+     f.flush();
+     f.close();
+     assertEquals("Valid output", compareFiles("Scenario5.ok", "Scenario.out"));
+     }
 
-    @Test
-    public void testMain5() throws IOException {
-        System.out.println("5");
-        String filenameRead = "Scenario5.in";
+     @Test
+     public void test6() throws IOException, ProfileNotSetException {
+      Exception expected = new InvalidUserException();
+        System.out.println("6");
+        String filenameRead = "Scenario6.in";
         String filenameWrite = "Scenario.out";
         FileWriter f;
         f = new FileWriter(new File(filenameWrite));
         Twitter twitter = new Twitter();
         TInput tInput = new TInput();
         tInput.initializeParameters(twitter, filenameRead, f);
-        twitter.readCommand(tInput);
+        try {
+            twitter.readCommand(tInput);
+        } catch (InvalidUserException e) {
+            assertThat(e.getCause(), equalTo((Throwable) expected));
+        }
+
         f.flush();
         f.close();
-        assertEquals("Valid output", compareFiles("Scenario5.ok", "Scenario.out"));
+     }
+
+    @Test
+    public void test7() throws IOException, ProfileNotSetException, InvalidUserException {
+        Exception expected = new ProfileNotSetException();
+        System.out.println("7");
+        String filenameRead = "Scenario7.in";
+        String filenameWrite = "Scenario.out";
+        FileWriter f;
+        f = new FileWriter(new File(filenameWrite));
+        Twitter twitter = new Twitter();
+        TInput tInput = new TInput();
+        tInput.initializeParameters(twitter, filenameRead, f);
+        try {
+            twitter.readCommand(tInput);
+        } catch (ProfileNotSetException e) {
+            assertThat(e.getCause(), equalTo((Throwable) expected));
+        }
+
+        f.flush();
+        f.close();
     }
 
     private String compareFiles(String filenameOK, String filenameOUT) throws FileNotFoundException, IOException {
