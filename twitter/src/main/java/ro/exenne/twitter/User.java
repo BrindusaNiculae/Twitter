@@ -108,11 +108,11 @@ public class User {
         this.setDescription(description);
     }
 
-    public void showPersonalPosts(OutputHandler outputHandler) {
-        this.show(outputHandler, posts);
+    public void showPersonalPosts() {
+        this.show(posts);
     }
 
-    public void showWall(OutputHandler outputHandler) {
+    public void showWall() {
         allPosts = null;
         allPosts = new ArrayList<TimedPosts>();
 
@@ -137,61 +137,59 @@ public class User {
             }
         });
 
-        this.show(outputHandler, allPosts);
+        this.show(allPosts);
     }
 
-    public void showProfile(OutputHandler outputHandler) throws ProfileNotSetException {
+    public void showProfile() throws ProfileNotSetException {
         if (this.getEmail() == "" || this.getPhone() == ""
                 || this.getDescription() == "") {
             throw new ProfileNotSetException();
         } else {
-            outputHandler.publish("User " + this.getName() + " has the following info:\n");
-            outputHandler.publish("    -Email: " + this.getEmail() + "\n");
-            outputHandler.publish("    -Telephone nr: " + this.getPhone() + "\n");
-            outputHandler.publish("    -Description: " + this.getDescription() + "\n");
+            System.out.println("User " + this.getName() + " has the following info:");
+            System.out.println("    -Email: " + this.getEmail());
+            System.out.println("    -Telephone nr: " + this.getPhone());
+            System.out.println("    -Description: " + this.getDescription());
         }
     }
 
-    private void show(OutputHandler outputHandler, ArrayList<TimedPosts> postsList) {
+    private void show(ArrayList<TimedPosts> postsList) {
         for (TimedPosts post : postsList) {
-            long elapsedTimeInSec = post.getTime();
+            long elapsedTimeInSec = (System.nanoTime() - post.getTime()) / 1000000;
+            //long elapsedTimeInSec = post.getTime();
             if (elapsedTimeInSec < 60) {
                 int elapsedTime = (int) elapsedTimeInSec;
-                outputHandler.publish(post.getPost() + "(" + elapsedTime
-                        + " seconds ago)\n");
+                System.out.println(post.getPost() + "(" + elapsedTime
+                        + " seconds ago)");
             } else {
                 int elapsedTime = (int) (elapsedTimeInSec / 60);
-                outputHandler.publish(post.getPost() + "(" + elapsedTime
-                        + " minutes ago)\n");
+                System.out.println(post.getPost() + "(" + elapsedTime
+                        + " minutes ago)");
             }
         }
     }
 
-    public void getPeopleYouMightKnow(OutputHandler outputHandler) {
-        ArrayList<String> ppl = new ArrayList<String>();
+    public void getPeopleYouMightKnow() {
+        ArrayList<String> ppl = null;
+        ppl = new ArrayList<String>();
         for (User user : followers) {
-            if (user.getFollowers().size() == 0) {
-                ppl.add("You might know " + user.getName() + "'s followees..."
-                        + "but they don't follow anybody.:( \n");
-            } else {
-                for (User personYouMightKnow : user.getFollowers()) {
-                    if (!personYouMightKnow.getName().equals(this.getName())) {
-                        boolean alreadyAdded = false;
-                        for (String aux : ppl) {
-                            if (aux.contains(personYouMightKnow.getName())) {
-                                alreadyAdded = true;
-                            }
+            for (User personYouMightKnow : user.getFollowers()) {
+                if (!personYouMightKnow.getName().equals(this.getName())) {
+                    boolean alreadyAdded = false;
+                    for (String aux : ppl) {
+                        if (aux.contains(personYouMightKnow.getName())) {
+                            alreadyAdded = true;
                         }
-                        if (!alreadyAdded) {
-                            ppl.add("You might know: " + personYouMightKnow.getName() + ".\n");
-                        }
+                    }
+                    if (!alreadyAdded) {
+                        ppl.add("You might know: " + personYouMightKnow.getName() + ".");
                     }
                 }
             }
         }
-        outputHandler.publish("Dear " + this.getName() + ":\n");
+
+        System.out.println("Dear " + this.getName() + ":");
         for (String s : ppl) {
-            outputHandler.publish(s);
+            System.out.println(s);
         }
     }
 }

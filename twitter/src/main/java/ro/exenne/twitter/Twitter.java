@@ -5,16 +5,11 @@
  */
 package ro.exenne.twitter;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Twitter {
 
@@ -24,7 +19,6 @@ public class Twitter {
     private int userId;
     private String[] words;
     private String name;
-    private OutputHandler outputHandler;
 
     Twitter() {
         users = new ArrayList();
@@ -33,7 +27,6 @@ public class Twitter {
         userId = -1;
         words = null;
         name = null;
-        outputHandler = null;
     }
 
     private void processCommand(String command) throws InvalidUserException, ProfileNotSetException, FileNotFoundException, InvalidEditProfileInputException, InvalidMailFormatException, InvalidPhoneNrFormatException {
@@ -79,17 +72,12 @@ public class Twitter {
         return -1;
     }
 
-    public void tweet(String command, OutputHandler outputHandler) throws InvalidUserException,
+    public void tweet(String command) throws InvalidUserException,
             ProfileNotSetException, InvalidEditProfileInputException,
             InvalidPhoneNrFormatException, InvalidMailFormatException, IOException {
 
         words = null;
-        this.outputHandler = outputHandler;
         processCommand(command);
-    }
-
-    void readCommand(InputHandler inputHandler) throws ProfileNotSetException, InvalidUserException {
-        inputHandler.read();
     }
 
     private void setUser() {
@@ -98,7 +86,8 @@ public class Twitter {
     }
 
     private long getTime() {
-        staticTime++;
+        staticTime = System.nanoTime();
+        //staticTime++;
         return (staticTime);
     }
 
@@ -136,12 +125,12 @@ public class Twitter {
 
     private void showWall() {
         this.setUser();
-        users.get(userId).showWall(outputHandler);
+        users.get(userId).showWall();
     }
 
     private void showPeople() {
         this.setUser();
-        users.get(userId).getPeopleYouMightKnow(outputHandler);
+        users.get(userId).getPeopleYouMightKnow();
     }
 
     private void seeAnotherProfile() throws InvalidUserException, ProfileNotSetException {
@@ -152,7 +141,7 @@ public class Twitter {
         if (i == -1) {
             throw new InvalidUserException(name2);
         } else {
-            users.get(i).showProfile(outputHandler);
+            users.get(i).showProfile();
         }
     }
 
@@ -210,15 +199,13 @@ public class Twitter {
 
     private void seeProfile() throws ProfileNotSetException {
         this.setUser();
-        users.get(userId).showProfile(outputHandler);
+        users.get(userId).showProfile();
     }
 
     private void unfollow() throws InvalidUserException {
         this.setUser();
         String name2 = words[1];
-        System.out.println("Trying to remove: " + name2);
         int i = getUserId(" " + name2 + " ");
-        System.out.println("i = " + i);
         if (i == -1) {
             throw new InvalidUserException(name2);
         } else {
@@ -226,12 +213,8 @@ public class Twitter {
         }
     }
 
-    private void showPersonalPosts() throws InvalidUserException {
+    private void showPersonalPosts() {
         this.setUser();
-        if (userId == -1) {
-            throw new InvalidUserException(name);
-        } else {
-            users.get(userId).showPersonalPosts(outputHandler);
-        }
+        users.get(userId).showPersonalPosts();
     }
 }

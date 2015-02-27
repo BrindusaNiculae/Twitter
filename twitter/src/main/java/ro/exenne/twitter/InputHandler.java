@@ -11,6 +11,7 @@ package ro.exenne.twitter;
  */
 public interface InputHandler {
 
-    public void read ()throws ProfileNotSetException, InvalidUserException;
+    public void read ()throws ProfileNotSetException, InvalidUserException, InvalidEditProfileInputException, 
+            InvalidMailFormatException, InvalidPhoneNrFormatException;
 
 }
