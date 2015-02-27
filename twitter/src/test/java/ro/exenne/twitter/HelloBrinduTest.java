@@ -17,7 +17,6 @@ public class HelloBrinduTest {
     private void generalTest() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
         f = new FileOutputStream("Scenario.out");
         System.setOut(new PrintStream(f));
-
         HelloBrindu.main(null);
     }
 
