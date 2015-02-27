@@ -17,11 +17,8 @@ public class HelloBrindu {
         BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
         Twitter twitter = new Twitter(buff);
         while (true) {
-            try {
-                s = buff.readLine();
-            } catch (IOException ex) {
-                Logger.getLogger(HelloBrindu.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            s = buff.readLine();
+
             if (null == s) {
                 throw new InvalidInputException();
             } else if (s.contains("EXIT")) {
