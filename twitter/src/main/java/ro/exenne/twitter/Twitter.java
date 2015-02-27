@@ -213,8 +213,12 @@ public class Twitter {
         }
     }
 
-    private void showPersonalPosts() {
+    private void showPersonalPosts() throws InvalidUserException {
         this.setUser();
-        users.get(userId).showPersonalPosts();
+        if (userId == -1) {
+            throw new InvalidUserException(name);
+        } else {
+            users.get(userId).showPersonalPosts();
+        }
     }
 }
