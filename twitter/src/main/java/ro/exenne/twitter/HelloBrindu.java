@@ -12,11 +12,9 @@ import java.util.logging.Logger;
 public class HelloBrindu {
 
     public static void main(String[] args) throws IOException, ProfileNotSetException, InvalidUserException, InvalidEditProfileInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
-        Twitter twitter = new Twitter();
-
         String s = null;
         BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
-
+        Twitter twitter = new Twitter(buff);
         while (true) {
             try {
                 s = buff.readLine();

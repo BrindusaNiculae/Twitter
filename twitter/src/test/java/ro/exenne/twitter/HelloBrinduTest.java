@@ -14,10 +14,18 @@ import static org.junit.Assert.*;
 
 public class HelloBrinduTest {
 
-    public void generalTest() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidEditProfileInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
-        FileOutputStream f = new FileOutputStream("Scenario.out");
+    FileOutputStream f;
+
+    private void generalTest() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidEditProfileInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        f = new FileOutputStream("Scenario.out");
         System.setOut(new PrintStream(f));
         HelloBrindu.main(null);
+    }
+
+    private void closeFiles() throws IOException {
+        f.flush();
+        f.close();
+
     }
 
     @Test
@@ -26,6 +34,7 @@ public class HelloBrinduTest {
         System.setIn(new FileInputStream("Scenario1.in"));
         generalTest();
         assertEquals("Valid output", compareFiles("Scenario1.ok", "Scenario.out"));
+        closeFiles();
     }
 
     @Test
@@ -33,6 +42,7 @@ public class HelloBrinduTest {
         System.setIn(new FileInputStream("Scenario2.in"));
         generalTest();
         assertEquals("Valid output", compareFiles("Scenario2.ok", "Scenario.out"));
+        closeFiles();
     }
 
     @Test
@@ -40,6 +50,7 @@ public class HelloBrinduTest {
         System.setIn(new FileInputStream("Scenario3.in"));
         generalTest();
         assertEquals("Valid output", compareFiles("Scenario3.ok", "Scenario.out"));
+        closeFiles();
     }
 
     @Test
@@ -47,6 +58,7 @@ public class HelloBrinduTest {
         System.setIn(new FileInputStream("Scenario4.in"));
         generalTest();
         assertEquals("Valid output", compareFiles("Scenario4.ok", "Scenario.out"));
+        closeFiles();
     }
 
     @Test
@@ -54,20 +66,43 @@ public class HelloBrinduTest {
         System.setIn(new FileInputStream("Scenario5.in"));
         generalTest();
         assertEquals("Valid output", compareFiles("Scenario5.ok", "Scenario.out"));
+        closeFiles();
     }
 
     @Test(expected = InvalidUserException.class)
     public void test6() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidEditProfileInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
         System.setIn(new FileInputStream("Scenario6.in"));
         generalTest();
+        closeFiles();
     }
 
     @Test(expected = ProfileNotSetException.class)
     public void test7() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidEditProfileInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
         System.setIn(new FileInputStream("Scenario7.in"));
         generalTest();
+        closeFiles();
     }
 
+    @Test(expected = InvalidMailFormatException.class)
+    public void test8() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidEditProfileInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario8.in"));
+        generalTest();
+        closeFiles();
+    }
+
+    @Test(expected = InvalidPhoneNrFormatException.class)
+    public void test9() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidEditProfileInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario9.in"));
+        generalTest();
+        closeFiles();
+    }
+    
+    @Test(expected = InvalidPhoneNrFormatException.class)
+    public void test10() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidEditProfileInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario10.in"));
+        generalTest();
+        closeFiles();
+    }
     private String compareFiles(String filenameOK, String filenameOUT) throws FileNotFoundException, IOException {
         BufferedReader sOK = new BufferedReader(new FileReader(filenameOK));
         BufferedReader sOUT = new BufferedReader(new FileReader(filenameOUT));

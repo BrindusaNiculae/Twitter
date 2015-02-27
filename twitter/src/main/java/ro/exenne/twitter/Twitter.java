@@ -5,31 +5,33 @@
  */
 package ro.exenne.twitter;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Twitter {
 
     private ArrayList<User> users;
-    private int commandId;
     private static long staticTime;
     private int userId;
     private String[] words;
     private String name;
+    private BufferedReader buff;
 
-    Twitter() {
+    Twitter(BufferedReader buff) {
+        this.buff = buff;
         users = new ArrayList();
-        commandId = 0;
         staticTime = 0;
         userId = -1;
         words = null;
         name = null;
     }
 
-    private void processCommand(String command) throws InvalidUserException, ProfileNotSetException, FileNotFoundException, InvalidEditProfileInputException, InvalidMailFormatException, InvalidPhoneNrFormatException {
+    private void processCommand(String command) throws InvalidUserException, ProfileNotSetException, FileNotFoundException, InvalidEditProfileInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
         if (command.contains("->")) {
             words = command.split("->");
             this.addPost();
@@ -145,12 +147,11 @@ public class Twitter {
         }
     }
 
-    private String setEmail(Scanner scanner) throws InvalidEditProfileInputException, InvalidMailFormatException {
-        String email;
-        if (!scanner.hasNext()) {
+    private String setEmail() throws InvalidEditProfileInputException, InvalidMailFormatException, IOException {
+        String email = buff.readLine();
+        if (null == email) {
             throw new InvalidEditProfileInputException();
         } else {
-            email = scanner.nextLine();
             if (!email.contains("@")) {
                 throw new InvalidMailFormatException();
             }
@@ -158,12 +159,11 @@ public class Twitter {
         return email;
     }
 
-    private String setPhoneNr(Scanner scanner) throws InvalidEditProfileInputException, InvalidPhoneNrFormatException {
-        String phoneNr;
-        if (!scanner.hasNext()) {
+    private String setPhoneNr() throws InvalidEditProfileInputException, InvalidMailFormatException, IOException, InvalidPhoneNrFormatException {
+        String phoneNr = buff.readLine();
+        if (null == phoneNr) {
             throw new InvalidEditProfileInputException();
         } else {
-            phoneNr = scanner.nextLine();
             if (phoneNr.length() > 10) {
                 throw new InvalidPhoneNrFormatException();
             }
@@ -176,22 +176,19 @@ public class Twitter {
         return phoneNr;
     }
 
-    private String setDescription(Scanner scanner) throws InvalidEditProfileInputException {
-        String description;
-        if (!scanner.hasNext()) {
+    private String setDescription() throws InvalidEditProfileInputException, IOException {
+        String description = buff.readLine();
+        if (null == buff) {
             throw new InvalidEditProfileInputException();
-        } else {
-            description = scanner.nextLine();
         }
         return description;
     }
 
-    private void editProfile() throws FileNotFoundException, InvalidEditProfileInputException, InvalidMailFormatException, InvalidPhoneNrFormatException {
+    private void editProfile() throws FileNotFoundException, InvalidEditProfileInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
         this.setUser();
-        Scanner scanner = new Scanner(new File("editProfile.in"));
-        String email = setEmail(scanner);
-        String phoneNr = setPhoneNr(scanner);
-        String description = setDescription(scanner);
+        String email = setEmail();
+        String phoneNr = setPhoneNr();
+        String description = setDescription();
 
         users.get(userId).editProfile(email, phoneNr, description);
 
