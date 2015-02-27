@@ -31,7 +31,7 @@ public class Twitter {
         name = null;
     }
 
-    private void processCommand(String command) throws InvalidUserException, ProfileNotSetException, FileNotFoundException, InvalidEditProfileInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
+    private void processCommand(String command) throws InvalidUserException, ProfileNotSetException, FileNotFoundException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException, InvalidInputException {
         if (command.contains("->")) {
             words = command.split("->");
             this.addPost();
@@ -75,8 +75,8 @@ public class Twitter {
     }
 
     public void tweet(String command) throws InvalidUserException,
-            ProfileNotSetException, InvalidEditProfileInputException,
-            InvalidPhoneNrFormatException, InvalidMailFormatException, IOException {
+            ProfileNotSetException,
+            InvalidPhoneNrFormatException, InvalidMailFormatException, IOException, FileNotFoundException, InvalidInputException {
 
         words = null;
         processCommand(command);
@@ -147,10 +147,10 @@ public class Twitter {
         }
     }
 
-    private String setEmail() throws InvalidEditProfileInputException, InvalidMailFormatException, IOException {
+    private String setEmail() throws InvalidInputException, InvalidMailFormatException, IOException {
         String email = buff.readLine();
         if (null == email) {
-            throw new InvalidEditProfileInputException();
+            throw new InvalidInputException();
         } else {
             if (!email.contains("@")) {
                 throw new InvalidMailFormatException();
@@ -159,10 +159,10 @@ public class Twitter {
         return email;
     }
 
-    private String setPhoneNr() throws InvalidEditProfileInputException, InvalidMailFormatException, IOException, InvalidPhoneNrFormatException {
+    private String setPhoneNr() throws InvalidMailFormatException, IOException, InvalidPhoneNrFormatException, InvalidInputException {
         String phoneNr = buff.readLine();
         if (null == phoneNr) {
-            throw new InvalidEditProfileInputException();
+            throw new InvalidInputException();
         } else {
             if (phoneNr.length() > 10) {
                 throw new InvalidPhoneNrFormatException();
@@ -176,15 +176,15 @@ public class Twitter {
         return phoneNr;
     }
 
-    private String setDescription() throws InvalidEditProfileInputException, IOException {
+    private String setDescription() throws InvalidInputException, IOException {
         String description = buff.readLine();
         if (null == buff) {
-            throw new InvalidEditProfileInputException();
+            throw new InvalidInputException();
         }
         return description;
     }
 
-    private void editProfile() throws FileNotFoundException, InvalidEditProfileInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
+    private void editProfile() throws FileNotFoundException, InvalidInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
         this.setUser();
         String email = setEmail();
         String phoneNr = setPhoneNr();

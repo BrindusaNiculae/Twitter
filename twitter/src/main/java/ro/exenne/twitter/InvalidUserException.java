@@ -15,8 +15,6 @@ public class InvalidUserException extends Exception {
 
     InvalidUserException(String name) {
         this.name = name;
-        System.err.println("Invalid user " + name
-                + " please enter a valid user");
     }
 
     public InvalidUserException() {

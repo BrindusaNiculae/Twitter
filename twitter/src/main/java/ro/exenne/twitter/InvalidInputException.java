@@ -9,11 +9,10 @@ package ro.exenne.twitter;
  *
  * @author Brindu
  */
-class InvalidEditProfileInputException extends Exception {
+class InvalidInputException extends Exception {
 
-    public InvalidEditProfileInputException() {
-        System.err.println("The information is invalid");
-       
+    public InvalidInputException() {
+        System.err.println("The format of the input is not valid");
+
     }
-    
 }
