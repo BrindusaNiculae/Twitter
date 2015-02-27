@@ -147,10 +147,16 @@ public class HelloBrinduTest {
 
     @Test
     public void test17() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
-
         System.setIn(new FileInputStream("Scenario17.in"));
         generalTest();
         assertEquals("Valid output", compareFiles("Scenario17.ok", "Scenario.out"));
+        closeFiles();
+    }
+    
+    @Test(expected = InvalidUserException.class)
+    public void test18() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario18.in"));
+        generalTest();
         closeFiles();
     }
 
