@@ -19,18 +19,17 @@ public class HelloBrinduTest {
     private void generalTest() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
         f = new FileOutputStream("Scenario.out");
         System.setOut(new PrintStream(f));
-        HelloBrindu.main(null);
+        HelloBrindu hy = new HelloBrindu();
+        hy.main(null);
     }
 
     private void closeFiles() throws IOException {
         f.flush();
         f.close();
-
     }
 
     @Test
     public void test1() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
-
         System.setIn(new FileInputStream("Scenario1.in"));
         generalTest();
         assertEquals("Valid output", compareFiles("Scenario1.ok", "Scenario.out"));
@@ -103,11 +102,55 @@ public class HelloBrinduTest {
         generalTest();
         closeFiles();
     }
-    
+
     @Test(expected = InvalidInputException.class)
     public void test11() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
         System.setIn(new FileInputStream("Scenario11.in"));
         generalTest();
+        closeFiles();
+    }
+
+    @Test(expected = InvalidUserException.class)
+    public void test12() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario12.in"));
+        generalTest();
+        closeFiles();
+    }
+
+    @Test(expected = InvalidUserException.class)
+    public void test13() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario13.in"));
+        generalTest();
+        closeFiles();
+    }
+
+    @Test(expected = InvalidUserException.class)
+    public void test14() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario14.in"));
+        generalTest();
+        closeFiles();
+    }
+
+    @Test(expected = InvalidInputException.class)
+    public void test15() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario15.in"));
+        generalTest();
+        closeFiles();
+    }
+
+    @Test(expected = InvalidInputException.class)
+    public void test16() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario16.in"));
+        generalTest();
+        closeFiles();
+    }
+
+    @Test
+    public void test17() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+
+        System.setIn(new FileInputStream("Scenario17.in"));
+        generalTest();
+        assertEquals("Valid output", compareFiles("Scenario17.ok", "Scenario.out"));
         closeFiles();
     }
 

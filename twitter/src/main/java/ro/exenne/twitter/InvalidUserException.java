@@ -11,24 +11,8 @@ package ro.exenne.twitter;
  */
 public class InvalidUserException extends Exception {
 
-    private String name;
-
-    public InvalidUserException() {
-        System.err.println("Invalid user " + this.name
+    InvalidUserException(String name) {
+        System.err.println("Invalid user " + name
                 + " please enter a valid user");
     }
-
-    InvalidUserException(String name) {
-        super();
-        this.name = name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
 }
