@@ -117,9 +117,9 @@ public class User {
     public void showWall() {
         allPosts = new ArrayList<TimedPosts>();
 
-        for (int i = 0; i < this.posts.size(); i++) {
-            String newPost = this.name + ": " + this.posts.get(i).getPost();
-            long time = posts.get(i).getTime();
+        for (TimedPosts post : this.posts) {
+            String newPost = this.name + ": " + post.getPost();
+            long time = post.getTime();
             allPosts.add(new TimedPosts(newPost, time));
         }
 
@@ -170,7 +170,7 @@ public class User {
     }
 
     public void getPeopleYouMightKnow() {
-        ArrayList<String> ppl = null;
+        ArrayList<String> ppl;
         ppl = new ArrayList<String>();
         for (User user : followers) {
             for (User personYouMightKnow : user.getFollowers()) {
