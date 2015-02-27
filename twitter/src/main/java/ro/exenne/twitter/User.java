@@ -5,27 +5,29 @@
  */
 package ro.exenne.twitter;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+
 
 /**
  *
  * @author Brindu
  */
 public class User {
+    private static final int NANO_TO_SEC = 1000000;
+    private static final int SEC_OR_MIN = 60;
 
     private final String name;
-    private final ArrayList<TimedPosts> posts;
-    private ArrayList<TimedPosts> allPosts;
-    private final ArrayList<User> followers;
+    private final List<TimedPosts> posts;
+    private List<TimedPosts> allPosts;
+    private final List<User> followers;
     private String email;
     private String phoneNr;
     private String description;
 
-    private class TimedPosts {
+    private static class TimedPosts {
 
         private final String post;
         private final Long time;
@@ -58,7 +60,7 @@ public class User {
         return name;
     }
 
-    public ArrayList<TimedPosts> getPosts() {
+    public List<TimedPosts> getPosts() {
         return posts;
     }
 
@@ -66,7 +68,7 @@ public class User {
         this.posts.add(new TimedPosts(post, time));
     }
 
-    public ArrayList<User> getFollowers() {
+    public List<User> getFollowers() {
         return followers;
     }
 
@@ -113,7 +115,6 @@ public class User {
     }
 
     public void showWall() {
-        allPosts = null;
         allPosts = new ArrayList<TimedPosts>();
 
         for (int i = 0; i < this.posts.size(); i++) {
@@ -141,8 +142,9 @@ public class User {
     }
 
     public void showProfile() throws ProfileNotSetException {
-        if (this.getEmail() == "" || this.getPhone() == ""
-                || this.getDescription() == "") {
+        String exceptionGenerator = "";
+        if (this.getEmail().equals(exceptionGenerator) || this.getPhone().equals(exceptionGenerator)
+                || this.getDescription().equals(exceptionGenerator)) {
             throw new ProfileNotSetException();
         } else {
             System.out.println("User " + this.getName() + " has the following info:");
@@ -152,16 +154,15 @@ public class User {
         }
     }
 
-    private void show(ArrayList<TimedPosts> postsList) {
+    private void show(List<TimedPosts> postsList) {
         for (TimedPosts post : postsList) {
-            long elapsedTimeInSec = (System.nanoTime() - post.getTime()) / 1000000;
-            //long elapsedTimeInSec = post.getTime();
-            if (elapsedTimeInSec < 60) {
+            long elapsedTimeInSec = (System.nanoTime() - post.getTime()) / NANO_TO_SEC;
+            if (elapsedTimeInSec < SEC_OR_MIN) {
                 int elapsedTime = (int) elapsedTimeInSec;
                 System.out.println(post.getPost() + "(" + elapsedTime
                         + " seconds ago)");
             } else {
-                int elapsedTime = (int) (elapsedTimeInSec / 60);
+                int elapsedTime = (int) (elapsedTimeInSec / SEC_OR_MIN);
                 System.out.println(post.getPost() + "(" + elapsedTime
                         + " minutes ago)");
             }

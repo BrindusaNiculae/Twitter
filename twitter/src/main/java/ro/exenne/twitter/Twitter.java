@@ -6,32 +6,30 @@
 package ro.exenne.twitter;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
+
 
 public class Twitter {
 
-    private ArrayList<User> users;
-    private static long staticTime;
+    private static final int MAX_LEN = 10;
+
+    private List<User> users;
+    private long startTime;
     private int userId;
     private String[] words;
     private String name;
-    private BufferedReader buff;
+    private final BufferedReader buff;
 
     Twitter(BufferedReader buff) {
         this.buff = buff;
         users = new ArrayList();
-        staticTime = 0;
+        startTime = 0;
         userId = -1;
-        words = null;
-        name = null;
     }
 
-    private void processCommand(String command) throws InvalidUserException, ProfileNotSetException, FileNotFoundException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException, InvalidInputException {
+    private void processCommand(String command) throws InvalidUserException, ProfileNotSetException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException, InvalidInputException {
         if (command.contains("->")) {
             words = command.split("->");
             this.addPost();
@@ -76,7 +74,7 @@ public class Twitter {
 
     public void tweet(String command) throws InvalidUserException,
             ProfileNotSetException,
-            InvalidPhoneNrFormatException, InvalidMailFormatException, IOException, FileNotFoundException, InvalidInputException {
+            InvalidPhoneNrFormatException, InvalidMailFormatException, IOException, InvalidInputException {
 
         words = null;
         processCommand(command);
@@ -88,9 +86,8 @@ public class Twitter {
     }
 
     private long getTime() {
-        staticTime = System.nanoTime();
-        //staticTime++;
-        return (staticTime);
+        startTime = System.nanoTime();
+        return (startTime);
     }
 
     private void addUserAndPost() throws InvalidUserException {
@@ -164,7 +161,7 @@ public class Twitter {
         if (null == phoneNr) {
             throw new InvalidInputException();
         } else {
-            if (phoneNr.length() > 10) {
+            if (phoneNr.length() > MAX_LEN) {
                 throw new InvalidPhoneNrFormatException();
             }
             for (char c : phoneNr.toCharArray()) {
@@ -178,13 +175,13 @@ public class Twitter {
 
     private String setDescription() throws InvalidInputException, IOException {
         String description = buff.readLine();
-        if (null == buff) {
+        if (null == description) {
             throw new InvalidInputException();
         }
         return description;
     }
 
-    private void editProfile() throws FileNotFoundException, InvalidInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
+    private void editProfile() throws InvalidInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
         this.setUser();
         String email = setEmail();
         String phoneNr = setPhoneNr();

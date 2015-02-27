@@ -1,24 +1,19 @@
 package ro.exenne.twitter;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.nio.charset.Charset;
 
-public class HelloBrindu {
+class HelloBrindu {
 
     public static void main(String[] args) throws IOException, ProfileNotSetException, InvalidUserException, InvalidPhoneNrFormatException, InvalidMailFormatException, FileNotFoundException, InvalidInputException {
         String s = null;
-        BufferedReader buff = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader buff = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
         Twitter twitter = new Twitter(buff);
         while (true) {
             s = buff.readLine();
-
             if (null == s) {
                 throw new InvalidInputException();
             } else if (s.contains("EXIT")) {
