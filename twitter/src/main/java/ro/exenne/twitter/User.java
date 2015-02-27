@@ -10,12 +10,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
 /**
  *
  * @author Brindu
  */
 public class User {
+
     private static final int NANO_TO_SEC = 1000000;
     private static final int SEC_OR_MIN = 60;
 

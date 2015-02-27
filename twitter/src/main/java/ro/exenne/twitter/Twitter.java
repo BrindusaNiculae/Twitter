@@ -10,12 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Twitter {
 
     private static final int MAX_LEN = 10;
 
-    private List<User> users;
+    private final List<User> users;
     private long startTime;
     private int userId;
     private String[] words;
@@ -76,7 +75,6 @@ public class Twitter {
             ProfileNotSetException,
             InvalidPhoneNrFormatException, InvalidMailFormatException, IOException, InvalidInputException {
 
-        words = null;
         processCommand(command);
     }
 

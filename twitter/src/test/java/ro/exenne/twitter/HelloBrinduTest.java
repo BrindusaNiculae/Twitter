@@ -19,8 +19,8 @@ public class HelloBrinduTest {
     private void generalTest() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
         f = new FileOutputStream("Scenario.out");
         System.setOut(new PrintStream(f));
-        HelloBrindu hy = new HelloBrindu();
-        hy.main(null);
+
+        HelloBrindu.main(null);
     }
 
     private void closeFiles() throws IOException {
@@ -152,10 +152,17 @@ public class HelloBrinduTest {
         assertEquals("Valid output", compareFiles("Scenario17.ok", "Scenario.out"));
         closeFiles();
     }
-    
+
     @Test(expected = InvalidUserException.class)
     public void test18() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
         System.setIn(new FileInputStream("Scenario18.in"));
+        generalTest();
+        closeFiles();
+    }
+
+    @Test(expected = InvalidInputException.class)
+    public void test19() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
+        System.setIn(new FileInputStream("Scenario19.in"));
         generalTest();
         closeFiles();
     }
