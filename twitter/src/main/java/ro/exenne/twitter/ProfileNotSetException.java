@@ -5,6 +5,9 @@
  */
 package ro.exenne.twitter;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Brindu
@@ -12,7 +15,8 @@ package ro.exenne.twitter;
 public class ProfileNotSetException extends Exception {
 
     public ProfileNotSetException() {
-        System.err.println("The profile for this user is not set!");
+        final Logger log = Logger.getLogger(getClass().getName());
+        log.log(Level.SEVERE, "The profile for this user is not set!", this);
     }
 
 }

@@ -5,6 +5,9 @@
  */
 package ro.exenne.twitter;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Brindu
@@ -12,7 +15,9 @@ package ro.exenne.twitter;
 public class InvalidUserException extends Exception {
 
     InvalidUserException(String name) {
-        System.err.println("Invalid user " + name
-                + " please enter a valid user");
+        super();
+        final Logger log = Logger.getLogger(getClass().getName());
+        log.log(Level.SEVERE, "Invalid user " + name
+                + " please enter a valid user", this);
     }
 }

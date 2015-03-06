@@ -7,6 +7,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -162,6 +165,14 @@ public class HelloBrinduTest {
         System.setIn(new FileInputStream("Scenario19.in"));
         generalTest();
         closeFiles();
+    }
+
+    @Test
+    public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Constructor<HelloBrindu> constructor = HelloBrindu.class.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 
     private String compareFiles(String filenameOK, String filenameOUT) throws FileNotFoundException, IOException {

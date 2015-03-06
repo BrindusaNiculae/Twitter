@@ -5,6 +5,9 @@
  */
 package ro.exenne.twitter;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Brindu
@@ -12,9 +15,10 @@ package ro.exenne.twitter;
 public class InvalidMailFormatException extends Exception {
 
     public InvalidMailFormatException() {
-        System.err.println("The format of the email is invalid. "
-                + "Enter a valid email address");
-
+        super();
+        final Logger log = Logger.getLogger(getClass().getName());
+        log.log(Level.SEVERE, "The format of the email is invalid. "
+                + "Enter a valid email address", this);
     }
 
 }

@@ -7,6 +7,10 @@ import java.nio.charset.Charset;
 
 final class HelloBrindu {
 
+    private HelloBrindu() {
+
+    }
+
     public static void main(String[] args) throws IOException, ProfileNotSetException, InvalidUserException, InvalidPhoneNrFormatException, InvalidMailFormatException, InvalidInputException {
         String s;
         BufferedReader buff = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));

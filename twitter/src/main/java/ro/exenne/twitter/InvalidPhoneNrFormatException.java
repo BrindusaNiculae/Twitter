@@ -5,6 +5,9 @@
  */
 package ro.exenne.twitter;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Brindu
@@ -12,8 +15,9 @@ package ro.exenne.twitter;
 public class InvalidPhoneNrFormatException extends Exception {
 
     public InvalidPhoneNrFormatException() {
-        System.err.println("Invalid phone nr!");
-
+        super();
+        final Logger log = Logger.getLogger(getClass().getName());
+        log.log(Level.SEVERE, "Invalid phone nr!", this);
     }
 
 }

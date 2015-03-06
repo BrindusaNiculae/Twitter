@@ -5,6 +5,9 @@
  */
 package ro.exenne.twitter;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Brindu
@@ -12,7 +15,8 @@ package ro.exenne.twitter;
 class InvalidInputException extends Exception {
 
     public InvalidInputException() {
-        System.err.println("The format of the input is not valid");
-
+        super();
+        final Logger log = Logger.getLogger(getClass().getName());
+        log.log(Level.SEVERE, "The format of the input is not valid", this);
     }
 }
