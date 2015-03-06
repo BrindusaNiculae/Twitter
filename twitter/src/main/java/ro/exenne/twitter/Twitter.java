@@ -165,8 +165,7 @@ public class Twitter {
             for (char c : phoneNr.toCharArray()) {
                 if (c > '9') {
                     throw new InvalidPhoneNrFormatException();
-                } else {
-                }
+                } 
             }
         }
         return phoneNr;
