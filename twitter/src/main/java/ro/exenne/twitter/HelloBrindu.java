@@ -7,23 +7,37 @@ import java.nio.charset.Charset;
 
 final class HelloBrindu {
 
+    static String s;
+    static BufferedReader buff;
+    static Twitter twitter;
+    static boolean flag;
+
     private HelloBrindu() {
 
     }
 
+    private static void initializeVariables() {
+        buff = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
+        twitter = new Twitter(buff);
+        flag = true;
+    }
+
+    private static boolean doWhile() throws IOException, ProfileNotSetException, InvalidUserException, InvalidPhoneNrFormatException, InvalidMailFormatException, InvalidInputException {
+        if (null == s) {
+            throw new InvalidInputException();
+        } else if (s.contains("EXIT")) {
+            return false;
+        } else {
+            twitter.tweet(s);
+        }
+        return true;
+    }
+
     public static void main(String[] args) throws IOException, ProfileNotSetException, InvalidUserException, InvalidPhoneNrFormatException, InvalidMailFormatException, InvalidInputException {
-        String s;
-        BufferedReader buff = new BufferedReader(new InputStreamReader(System.in, Charset.defaultCharset()));
-        Twitter twitter = new Twitter(buff);
-        while (true) {
+        initializeVariables();
+        while (flag) {
             s = buff.readLine();
-            if (null == s) {
-                throw new InvalidInputException();
-            } else if (s.contains("EXIT")) {
-                break;
-            } else {
-                twitter.tweet(s);
-            }
+            flag = doWhile();
         }
     }
 }
