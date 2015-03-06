@@ -145,8 +145,7 @@ public class User {
 
     public void showProfile() throws ProfileNotSetException {
         String exceptionGenerator = "";
-        if (this.getEmail().equals(exceptionGenerator) || this.getPhone().equals(exceptionGenerator)
-                || this.getDescription().equals(exceptionGenerator)) {
+        if (this.getEmail().equals(exceptionGenerator)) {
             throw new ProfileNotSetException();
         } else {
             out.println("User " + this.getName() + " has the following info:");

@@ -167,27 +167,6 @@ public class HelloBrinduTest {
         closeFiles();
     }
 
-    @Test(expected = ProfileNotSetException.class)
-    public void test20() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
-        System.setIn(new FileInputStream("Scenario20.in"));
-        generalTest();
-        closeFiles();
-    }
-
-    @Test(expected = ProfileNotSetException.class)
-    public void test21() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
-        System.setIn(new FileInputStream("Scenario21.in"));
-        generalTest();
-        closeFiles();
-    }
-
-    @Test(expected = InvalidPhoneNrFormatException.class)
-    public void test22() throws FileNotFoundException, IOException, ProfileNotSetException, InvalidUserException, InvalidInputException, InvalidPhoneNrFormatException, InvalidMailFormatException {
-        System.setIn(new FileInputStream("Scenario22.in"));
-        generalTest();
-        closeFiles();
-    }
-
     @Test
     public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Constructor<HelloBrindu> constructor = HelloBrindu.class.getDeclaredConstructor();

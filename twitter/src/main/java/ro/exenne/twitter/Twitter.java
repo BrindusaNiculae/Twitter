@@ -163,7 +163,8 @@ public class Twitter {
                 throw new InvalidPhoneNrFormatException();
             }
             for (char c : phoneNr.toCharArray()) {
-                if (c < '0' || c > '9') {
+                if (c <= '9') {
+                } else {
                     throw new InvalidPhoneNrFormatException();
                 }
             }
