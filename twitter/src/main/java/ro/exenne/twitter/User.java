@@ -24,9 +24,7 @@ public class User {
     private final List<TimedPosts> posts;
     private List<TimedPosts> allPosts;
     private final List<User> followers;
-    private String email;
-    private String phoneNr;
-    private String description;
+    private final UserProfile profile;
     private final PrintStream out = System.out;
 
     User(String name) {
@@ -34,9 +32,7 @@ public class User {
         posts = new ArrayList<TimedPosts>();
         followers = new ArrayList<User>();
         allPosts = new ArrayList<TimedPosts>();
-        email = "";
-        phoneNr = "";
-        description = "";
+        profile = new UserProfile();
     }
 
     public String getName() {
@@ -63,49 +59,25 @@ public class User {
         followers.remove(user);
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String mail) {
-        email = mail;
-    }
-
-    public String getPhone() {
-        return phoneNr;
-    }
-
-    public void setPhone(String tel) {
-        phoneNr = tel;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String descr) {
-        description = descr;
-    }
-
     public void editProfile(String email, String phoneNr, String description) {
-        this.setEmail(email);
-        this.setPhone(phoneNr);
-        this.setDescription(description);
+        profile.setEmail(email);
+        profile.setPhone(phoneNr);
+        profile.setDescription(description);
     }
 
     public void showPersonalPosts() {
         this.show(posts);
     }
 
-    public void showWall() {
-        allPosts = new ArrayList<TimedPosts>();
-
+    private void addPosts(List<TimedPosts> allPosts) {
         for (TimedPosts post : this.posts) {
             String newPost = this.name + ": " + post.getPost();
             long time = post.getTime();
             allPosts.add(new TimedPosts(newPost, time));
         }
+    }
 
+    private void addFollowersPosts(List<TimedPosts> allPosts) {
         for (User follower : followers) {
             for (TimedPosts post : follower.getPosts()) {
                 String newPost = follower.getName() + ": " + post.getPost();
@@ -113,6 +85,9 @@ public class User {
                 allPosts.add(new TimedPosts(newPost, time));
             }
         }
+    }
+
+    private void sortAllPosts(List<TimedPosts> allPosts) {
         Collections.sort(allPosts, new Comparator<TimedPosts>() {
 
             @Override
@@ -120,19 +95,25 @@ public class User {
                 return (int) (o1.getTime() - o2.getTime());
             }
         });
+    }
 
+    public void showWall() {
+        allPosts = new ArrayList<TimedPosts>();
+        this.addPosts(allPosts);
+        this.addFollowersPosts(allPosts);
+        this.sortAllPosts(allPosts);
         this.show(allPosts);
     }
 
     public void showProfile() throws ProfileNotSetException {
         String exceptionGenerator = "";
-        if (this.getEmail().equals(exceptionGenerator)) {
+        if (profile.getEmail().equals(exceptionGenerator)) {
             throw new ProfileNotSetException();
         } else {
             out.println("User " + this.getName() + " has the following info:");
-            out.println("    -Email: " + this.getEmail());
-            out.println("    -Telephone nr: " + this.getPhone());
-            out.println("    -Description: " + this.getDescription());
+            out.println("    -Email: " + profile.getEmail());
+            out.println("    -Telephone nr: " + profile.getPhone());
+            out.println("    -Description: " + profile.getDescription());
         }
     }
 

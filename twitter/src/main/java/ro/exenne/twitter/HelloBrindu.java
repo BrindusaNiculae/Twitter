@@ -31,8 +31,7 @@ final class HelloBrindu {
         return true;
     }
 
-    public static void main(String[] args) throws IOException, ProfileNotSetException, InvalidUserException, InvalidPhoneNrFormatException, InvalidMailFormatException, InvalidInputException {
-        initializeVariables();
+    private static void iterate() throws IOException, ProfileNotSetException, InvalidUserException, InvalidPhoneNrFormatException, InvalidMailFormatException, InvalidInputException {
         while (flag) {
             s = buff.readLine();
             if (null == s) {
@@ -41,5 +40,10 @@ final class HelloBrindu {
                 flag = doWhile();
             }
         }
+    }
+
+    public static void main(String[] args) throws IOException, ProfileNotSetException, InvalidUserException, InvalidPhoneNrFormatException, InvalidMailFormatException, InvalidInputException {
+        initializeVariables();
+        iterate();
     }
 }
