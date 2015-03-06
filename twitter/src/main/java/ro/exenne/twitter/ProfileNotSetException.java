@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 public class ProfileNotSetException extends Exception {
 
     public ProfileNotSetException() {
+        super();
         final Logger log = Logger.getLogger(getClass().getName());
         log.log(Level.SEVERE, "The profile for this user is not set!", this);
     }
