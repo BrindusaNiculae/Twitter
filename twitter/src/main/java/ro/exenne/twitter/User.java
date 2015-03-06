@@ -5,6 +5,7 @@
  */
 package ro.exenne.twitter;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,6 +27,7 @@ public class User {
     private String email;
     private String phoneNr;
     private String description;
+    private PrintStream out=System.out;
 
     private static class TimedPosts {
 
@@ -147,10 +149,10 @@ public class User {
                 || this.getDescription().equals(exceptionGenerator)) {
             throw new ProfileNotSetException();
         } else {
-            System.out.println("User " + this.getName() + " has the following info:");
-            System.out.println("    -Email: " + this.getEmail());
-            System.out.println("    -Telephone nr: " + this.getPhone());
-            System.out.println("    -Description: " + this.getDescription());
+            out.println("User " + this.getName() + " has the following info:");
+            out.println("    -Email: " + this.getEmail());
+            out.println("    -Telephone nr: " + this.getPhone());
+            out.println("    -Description: " + this.getDescription());
         }
     }
 
@@ -159,11 +161,11 @@ public class User {
             long elapsedTimeInSec = (System.nanoTime() - post.getTime()) / NANO_TO_SEC;
             if (elapsedTimeInSec < SEC_OR_MIN) {
                 int elapsedTime = (int) elapsedTimeInSec;
-                System.out.println(post.getPost() + "(" + elapsedTime
+                out.println(post.getPost() + "(" + elapsedTime
                         + " seconds ago)");
             } else {
                 int elapsedTime = (int) (elapsedTimeInSec / SEC_OR_MIN);
-                System.out.println(post.getPost() + "(" + elapsedTime
+                out.println(post.getPost() + "(" + elapsedTime
                         + " minutes ago)");
             }
         }
@@ -188,9 +190,9 @@ public class User {
             }
         }
 
-        System.out.println("Dear " + this.getName() + ":");
+        out.println("Dear " + this.getName() + ":");
         for (String s : ppl) {
-            System.out.println(s);
+            out.println(s);
         }
     }
 }
