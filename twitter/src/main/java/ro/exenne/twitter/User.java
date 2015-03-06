@@ -27,7 +27,7 @@ public class User {
     private String email;
     private String phoneNr;
     private String description;
-    private final PrintStream out=System.out;
+    private final PrintStream out = System.out;
 
     private static class TimedPosts {
 
