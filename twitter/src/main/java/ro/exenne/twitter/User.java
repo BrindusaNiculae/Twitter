@@ -29,25 +29,6 @@ public class User {
     private String description;
     private final PrintStream out = System.out;
 
-    private static class TimedPosts {
-
-        private final String post;
-        private final Long time;
-
-        TimedPosts(String post, long time) {
-            this.post = post;
-            this.time = time;
-        }
-
-        protected String getPost() {
-            return post;
-        }
-
-        protected long getTime() {
-            return time;
-        }
-    }
-
     User(String name) {
         this.name = name;
         posts = new ArrayList<TimedPosts>();
@@ -136,7 +117,7 @@ public class User {
 
             @Override
             public int compare(TimedPosts o1, TimedPosts o2) {
-                return (int) (o1.time - o2.time);
+                return (int) (o1.getTime() - o2.getTime());
             }
         });
 

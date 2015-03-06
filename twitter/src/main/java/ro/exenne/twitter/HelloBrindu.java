@@ -7,10 +7,10 @@ import java.nio.charset.Charset;
 
 final class HelloBrindu {
 
-    static String s;
-    static BufferedReader buff;
-    static Twitter twitter;
-    static boolean flag;
+    private static String s;
+    private static BufferedReader buff;
+    private static Twitter twitter;
+    private static boolean flag;
 
     private HelloBrindu() {
 
@@ -23,9 +23,7 @@ final class HelloBrindu {
     }
 
     private static boolean doWhile() throws IOException, ProfileNotSetException, InvalidUserException, InvalidPhoneNrFormatException, InvalidMailFormatException, InvalidInputException {
-        if (null == s) {
-            throw new InvalidInputException();
-        } else if (s.contains("EXIT")) {
+        if (s.contains("EXIT")) {
             return false;
         } else {
             twitter.tweet(s);
@@ -37,7 +35,11 @@ final class HelloBrindu {
         initializeVariables();
         while (flag) {
             s = buff.readLine();
-            flag = doWhile();
+            if (null == s) {
+                throw new InvalidInputException();
+            } else {
+                flag = doWhile();
+            }
         }
     }
 }
