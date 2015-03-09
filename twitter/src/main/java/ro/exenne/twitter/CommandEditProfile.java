@@ -16,10 +16,6 @@ class CommandEditProfile extends Command {
 
     private static final int MAX_LEN = 10;
 
-    public CommandEditProfile(Users users, String[] words) {
-        super(users, words);
-    }
-
     public CommandEditProfile(Users users, String[] words, BufferedReader buff) {
         super(users, words, buff);
     }
