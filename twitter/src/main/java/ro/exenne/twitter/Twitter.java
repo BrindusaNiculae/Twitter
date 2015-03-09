@@ -7,14 +7,12 @@ package ro.exenne.twitter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Twitter {
 
     private static final int MAX_LEN = 10;
 
-    private final List<User> users;
+    private final Users users;
     private int userId;
     private String[] words;
     private String name;
@@ -22,7 +20,7 @@ public class Twitter {
 
     Twitter(BufferedReader buff) {
         this.buff = buff;
-        users = new ArrayList();
+        users = new Users();
         userId = -1;
     }
 
@@ -59,8 +57,8 @@ public class Twitter {
 
     private int getUserId(String name) {
 
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
+        for (int i = 0; i < users.getUsers().size(); i++) {
+            User user = users.getUser(i);
             String nameTest = " " + user.getName() + " ";
             if (nameTest.equals(name)) {
                 return i;
@@ -83,11 +81,10 @@ public class Twitter {
     private void addUserAndPost() throws InvalidUserException {
         if (words.length == 1) {
             throw new InvalidUserException(words[0]);
-        } else {
-            User temp = new User(words[0]);
-            temp.addPost(words[1], System.nanoTime());
-            users.add(temp);
         }
+        User temp = new User(words[0]);
+        temp.addPost(words[1], System.nanoTime());
+        users.addUser(temp);
     }
 
     private void addPost() throws InvalidUserException {
@@ -95,7 +92,7 @@ public class Twitter {
         if (userId == -1) {
             this.addUserAndPost();
         } else {
-            users.get(userId).addPost(words[1], System.nanoTime());
+            users.getUser(userId).addPost(words[1], System.nanoTime());
         }
     }
 
@@ -105,19 +102,18 @@ public class Twitter {
         int i = getUserId(" " + name2 + " ");
         if (i == -1) {
             throw new InvalidUserException(name2);
-        } else {
-            users.get(userId).addFollower(users.get(i));
         }
+        users.getUser(userId).addFollower(users.getUser(i));
     }
 
     private void showWall() {
         this.setUser();
-        users.get(userId).showWall();
+        users.getUser(userId).showWall();
     }
 
     private void showPeople() {
         this.setUser();
-        users.get(userId).getPeopleYouMightKnow();
+        users.getUser(userId).getPeopleYouMightKnow();
     }
 
     private void seeAnotherProfile() throws InvalidUserException, ProfileNotSetException {
@@ -128,7 +124,7 @@ public class Twitter {
         if (i == -1) {
             throw new InvalidUserException(name2);
         } else {
-            users.get(i).showProfile();
+            users.getUser(i).showProfile();
         }
     }
 
@@ -184,12 +180,12 @@ public class Twitter {
         String email = checkEmail();
         String phoneNr = checkPhoneNr();
         String description = checkDescription();
-        users.get(userId).editProfile(email, phoneNr, description);
+        users.getUser(userId).editProfile(email, phoneNr, description);
     }
 
     private void seeProfile() throws ProfileNotSetException {
         this.setUser();
-        users.get(userId).showProfile();
+        users.getUser(userId).showProfile();
     }
 
     private void unfollow() throws InvalidUserException {
@@ -199,7 +195,7 @@ public class Twitter {
         if (i == -1) {
             throw new InvalidUserException(name2);
         }
-        users.get(userId).removeFollower(users.get(i));
+        users.getUser(userId).removeFollower(users.getUser(i));
     }
 
     private void showPersonalPosts() throws InvalidUserException {
@@ -207,6 +203,6 @@ public class Twitter {
         if (userId == -1) {
             throw new InvalidUserException(name);
         }
-        users.get(userId).showPersonalPosts();
+        users.getUser(userId).showPersonalPosts();
     }
 }

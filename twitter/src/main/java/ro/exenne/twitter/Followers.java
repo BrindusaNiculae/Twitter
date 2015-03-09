@@ -41,15 +41,19 @@ public class Followers {
         return false;
     }
 
-    void editPeopleYouMightKnowList(List<String> people, String name) {
-        for (User user : followers) {
-            for (User personYouMightKnow : user.getFollowers().getFollowers()) {
-                if (!personYouMightKnow.getName().equals(name)
-                        && !alreadyInList(people, personYouMightKnow.getName())) {
-                    people.add("You might know: " + personYouMightKnow.getName() + ".");
-                }
-
+    private void checkIfNotRepeat(List<String> people, User user, String name) {
+        for (User personYouMightKnow : user.getFollowers().getFollowers()) {
+            if (!personYouMightKnow.getName().equals(name)
+                    && !alreadyInList(people, personYouMightKnow.getName())) {
+                people.add("You might know: " + personYouMightKnow.getName() + ".");
             }
         }
+    }
+
+    void editPeopleYouMightKnowList(List<String> people, String name) {
+        for (User user : followers) {
+            checkIfNotRepeat(people, user, name);
+        }
+
     }
 }
