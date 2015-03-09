@@ -132,12 +132,6 @@ public class Twitter {
         }
     }
 
-    private void checkNull(String string) throws InvalidInputException {
-        if (null == string) {
-            throw new InvalidInputException();
-        }
-    }
-
     private void checkEmailFormat(String email) throws InvalidMailFormatException {
         if (!email.contains("@")) {
             throw new InvalidMailFormatException();
@@ -146,7 +140,9 @@ public class Twitter {
 
     private String checkEmail() throws InvalidInputException, InvalidMailFormatException, IOException {
         String email = buff.readLine();
-        this.checkNull(email);
+        if (null == email) {
+            throw new InvalidInputException();
+        }
         this.checkEmailFormat(email);
         return email;
     }
@@ -167,7 +163,9 @@ public class Twitter {
 
     private String checkPhoneNr() throws InvalidMailFormatException, IOException, InvalidPhoneNrFormatException, InvalidInputException {
         String phoneNr = buff.readLine();
-        this.checkNull(phoneNr);
+        if (null == phoneNr) {
+            throw new InvalidInputException();
+        }
         this.checkPhoneNrLength(phoneNr);
         this.checkPhoneNrFormat(phoneNr);
         return phoneNr;
@@ -175,7 +173,9 @@ public class Twitter {
 
     private String checkDescription() throws InvalidInputException, IOException {
         String description = buff.readLine();
-        this.checkNull(description);
+        if (null == description) {
+            throw new InvalidInputException();
+        }
         return description;
     }
 

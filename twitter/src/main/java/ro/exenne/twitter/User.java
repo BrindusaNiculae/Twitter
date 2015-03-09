@@ -7,8 +7,6 @@ package ro.exenne.twitter;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -19,14 +17,14 @@ public class User {
 
     private final String name;
     private final ListOfPosts posts;
-    private final List<User> followers;
+    private final Followers followers;
     private final UserProfile profile;
     private final PrintStream out = System.out;
 
     User(String name) {
         this.name = name;
         posts = new ListOfPosts();
-        followers = new ArrayList<User>();
+        followers = new Followers();
         profile = new UserProfile();
     }
 
@@ -42,16 +40,16 @@ public class User {
         this.posts.addPost(new TimedPosts(post, time));
     }
 
-    public List<User> getFollowers() {
+    public Followers getFollowers() {
         return followers;
     }
 
     public void addFollower(User user) {
-        followers.add(user);
+        followers.addFollower(user);
     }
 
     public void removeFollower(User user) {
-        followers.remove(user);
+        followers.removeFollower(user);
     }
 
     public void editProfile(String email, String phoneNr, String description) {
@@ -65,7 +63,7 @@ public class User {
     public void showWall() {
         ListOfPosts allPosts = new ListOfPosts();
         allPosts.addPostsWithNames(this.posts, this.name);
-        allPosts.addFollowersPosts(this.followers);
+        allPosts.addFollowersPosts(this.followers.getFollowers());
         allPosts.sortAllPosts();
         allPosts.show(out);
     }
@@ -73,9 +71,8 @@ public class User {
     public void showProfile() throws ProfileNotSetException {
         if (profile.getEmail().equals("")) {
             throw new ProfileNotSetException();
-        } else {
-            profile.showProfileToOutput(out, this.getName());
         }
+        profile.showProfileToOutput(out, this.getName());
     }
 
     private void showPeopleYouMightKnow(List<String> people) {
@@ -85,30 +82,9 @@ public class User {
         }
     }
 
-    private boolean alreadyInList(List<String> people, String name) {
-        for (String aux : people) {
-            if (aux.contains(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void editPeopleYouMightKnowList(List<String> people) {
-        for (User user : followers) {
-            for (User personYouMightKnow : user.getFollowers()) {
-                if (!personYouMightKnow.getName().equals(this.getName())
-                        && !alreadyInList(people, personYouMightKnow.getName())) {
-                    people.add("You might know: " + personYouMightKnow.getName() + ".");
-                }
-
-            }
-        }
-    }
-
     public void getPeopleYouMightKnow() {
         List<String> people = new ArrayList<String>();
-        this.editPeopleYouMightKnowList(people);
+        followers.editPeopleYouMightKnowList(people, this.getName());
         this.showPeopleYouMightKnow(people);
     }
 }
