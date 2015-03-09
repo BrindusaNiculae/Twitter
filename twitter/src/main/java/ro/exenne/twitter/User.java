@@ -18,17 +18,15 @@ import java.util.List;
 public class User {
 
     private final String name;
-    private final List<TimedPosts> posts;
-    private List<TimedPosts> allPosts;
+    private final ListOfPosts posts;
     private final List<User> followers;
     private final UserProfile profile;
     private final PrintStream out = System.out;
 
     User(String name) {
         this.name = name;
-        posts = new ArrayList<TimedPosts>();
+        posts = new ListOfPosts();
         followers = new ArrayList<User>();
-        allPosts = new ArrayList<TimedPosts>();
         profile = new UserProfile();
     }
 
@@ -36,12 +34,12 @@ public class User {
         return name;
     }
 
-    public List<TimedPosts> getPosts() {
+    public ListOfPosts getPosts() {
         return posts;
     }
 
     public void addPost(String post, long time) {
-        this.posts.add(new TimedPosts(post, time));
+        this.posts.addPost(new TimedPosts(post, time));
     }
 
     public List<User> getFollowers() {
@@ -61,38 +59,15 @@ public class User {
     }
 
     public void showPersonalPosts() {
-        this.show(posts);
-    }
-
-    private void addPostsWithNames(List<TimedPosts> originalPosts,
-            List<TimedPosts> allPosts, String name) {
-        for (TimedPosts post : originalPosts) {
-            allPosts.add(new TimedPosts(name + ": "
-                    + post.getPost(), post.getTime()));
-        }
-    }
-
-    private void addFollowersPosts(List<TimedPosts> allPosts) {
-        for (User follower : followers) {
-            this.addPostsWithNames(follower.getPosts(), allPosts, follower.getName());
-        }
-    }
-
-    private void sortAllPosts(List<TimedPosts> allPosts) {
-        Collections.sort(allPosts, new Comparator<TimedPosts>() {
-            @Override
-            public int compare(TimedPosts o1, TimedPosts o2) {
-                return (int) (o1.getTime() - o2.getTime());
-            }
-        });
+        posts.show(out);
     }
 
     public void showWall() {
-        allPosts = new ArrayList<TimedPosts>();
-        this.addPostsWithNames(this.posts, allPosts, this.name);
-        this.addFollowersPosts(allPosts);
-        this.sortAllPosts(allPosts);
-        this.show(allPosts);
+        ListOfPosts allPosts = new ListOfPosts();
+        allPosts.addPostsWithNames(this.posts, this.name);
+        allPosts.addFollowersPosts(this.followers);
+        allPosts.sortAllPosts();
+        allPosts.show(out);
     }
 
     public void showProfile() throws ProfileNotSetException {
@@ -100,12 +75,6 @@ public class User {
             throw new ProfileNotSetException();
         } else {
             profile.showProfileToOutput(out, this.getName());
-        }
-    }
-
-    private void show(List<TimedPosts> postsList) {
-        for (TimedPosts post : postsList) {
-            post.showSelf(out);
         }
     }
 
