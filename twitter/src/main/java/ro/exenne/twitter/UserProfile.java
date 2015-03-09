@@ -5,6 +5,8 @@
  */
 package ro.exenne.twitter;
 
+import java.io.PrintStream;
+
 /**
  *
  * @author Brindusa
@@ -45,4 +47,16 @@ public class UserProfile {
         description = descr;
     }
 
+    public void edit(String email, String phoneNr, String description) {
+        this.setEmail(email);
+        this.setPhone(phoneNr);
+        this.setDescription(description);
+    }
+
+    public void showProfileToOutput(PrintStream out, String name) {
+        out.println("User " + name + " has the following info:");
+        out.println("    -Email: " + this.getEmail());
+        out.println("    -Telephone nr: " + this.getPhone());
+        out.println("    -Description: " + this.getDescription());
+    }
 }

@@ -57,9 +57,7 @@ public class User {
     }
 
     public void editProfile(String email, String phoneNr, String description) {
-        profile.setEmail(email);
-        profile.setPhone(phoneNr);
-        profile.setDescription(description);
+        profile.edit(email, phoneNr, description);
     }
 
     public void showPersonalPosts() {
@@ -76,7 +74,7 @@ public class User {
 
     private void addFollowersPosts(List<TimedPosts> allPosts) {
         for (User follower : followers) {
-            addPostsWithNames(follower.getPosts(), allPosts, follower.getName());
+            this.addPostsWithNames(follower.getPosts(), allPosts, follower.getName());
         }
     }
 
@@ -97,18 +95,11 @@ public class User {
         this.show(allPosts);
     }
 
-    private void showProfileToOutput() {
-        out.println("User " + this.getName() + " has the following info:");
-        out.println("    -Email: " + profile.getEmail());
-        out.println("    -Telephone nr: " + profile.getPhone());
-        out.println("    -Description: " + profile.getDescription());
-    }
-
     public void showProfile() throws ProfileNotSetException {
         if (profile.getEmail().equals("")) {
             throw new ProfileNotSetException();
         } else {
-            this.showProfileToOutput();
+            profile.showProfileToOutput(out, this.getName());
         }
     }
 
