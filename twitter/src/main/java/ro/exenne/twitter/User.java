@@ -69,7 +69,7 @@ public class User {
     private void addPostsWithNames(List<TimedPosts> originalPosts,
             List<TimedPosts> allPosts, String name) {
         for (TimedPosts post : originalPosts) {
-            boolean add = allPosts.add(new TimedPosts(name + ": "
+            allPosts.add(new TimedPosts(name + ": "
                     + post.getPost(), post.getTime()));
         }
     }
@@ -137,11 +137,11 @@ public class User {
     private void editPeopleYouMightKnowList(List<String> people) {
         for (User user : followers) {
             for (User personYouMightKnow : user.getFollowers()) {
-                if (!personYouMightKnow.getName().equals(this.getName())) {
-                    if (!alreadyInList(people, personYouMightKnow.getName())) {
-                        people.add("You might know: " + personYouMightKnow.getName() + ".");
-                    }
+                if (!personYouMightKnow.getName().equals(this.getName())
+                        && !alreadyInList(people, personYouMightKnow.getName())) {
+                    people.add("You might know: " + personYouMightKnow.getName() + ".");
                 }
+
             }
         }
     }
