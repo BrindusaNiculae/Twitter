@@ -15,7 +15,6 @@ public class Twitter {
     private static final int MAX_LEN = 10;
 
     private final List<User> users;
-    private long startTime;
     private int userId;
     private String[] words;
     private String name;
@@ -24,7 +23,6 @@ public class Twitter {
     Twitter(BufferedReader buff) {
         this.buff = buff;
         users = new ArrayList();
-        startTime = 0;
         userId = -1;
     }
 
@@ -74,7 +72,6 @@ public class Twitter {
     public void tweet(String command) throws InvalidUserException,
             ProfileNotSetException,
             InvalidPhoneNrFormatException, InvalidMailFormatException, IOException, InvalidInputException {
-
         processCommand(command);
     }
 
@@ -83,18 +80,12 @@ public class Twitter {
         userId = getUserId(name);
     }
 
-    private long getTime() {
-        startTime = System.nanoTime();
-        return (startTime);
-    }
-
     private void addUserAndPost() throws InvalidUserException {
         if (words.length == 1) {
             throw new InvalidUserException(words[0]);
         } else {
             User temp = new User(words[0]);
-            long time = this.getTime();
-            temp.addPost(words[1], time);
+            temp.addPost(words[1], System.nanoTime());
             users.add(temp);
         }
     }
@@ -104,8 +95,7 @@ public class Twitter {
         if (userId == -1) {
             this.addUserAndPost();
         } else {
-            long time = this.getTime();
-            users.get(userId).addPost(words[1], time);
+            users.get(userId).addPost(words[1], System.nanoTime());
         }
     }
 
@@ -142,51 +132,59 @@ public class Twitter {
         }
     }
 
-    private String setEmail() throws InvalidInputException, InvalidMailFormatException, IOException {
-        String email = buff.readLine();
-        if (null == email) {
+    private void checkNull(String string) throws InvalidInputException {
+        if (null == string) {
             throw new InvalidInputException();
-        } else {
-            if (!email.contains("@")) {
-                throw new InvalidMailFormatException();
-            }
         }
+    }
+
+    private void checkEmailFormat(String email) throws InvalidMailFormatException {
+        if (!email.contains("@")) {
+            throw new InvalidMailFormatException();
+        }
+    }
+
+    private String checkEmail() throws InvalidInputException, InvalidMailFormatException, IOException {
+        String email = buff.readLine();
+        this.checkNull(email);
+        this.checkEmailFormat(email);
         return email;
     }
 
-    private String setPhoneNr() throws InvalidMailFormatException, IOException, InvalidPhoneNrFormatException, InvalidInputException {
-        String phoneNr = buff.readLine();
-        if (null == phoneNr) {
-            throw new InvalidInputException();
-        } else {
-            if (phoneNr.length() > MAX_LEN) {
+    private void checkPhoneNrLength(String phoneNr) throws InvalidPhoneNrFormatException {
+        if (phoneNr.length() > MAX_LEN) {
+            throw new InvalidPhoneNrFormatException();
+        }
+    }
+
+    private void checkPhoneNrFormat(String phoneNr) throws InvalidPhoneNrFormatException {
+        for (char c : phoneNr.toCharArray()) {
+            if (c > '9') {
                 throw new InvalidPhoneNrFormatException();
             }
-            for (char c : phoneNr.toCharArray()) {
-                if (c > '9') {
-                    throw new InvalidPhoneNrFormatException();
-                } 
-            }
         }
+    }
+
+    private String checkPhoneNr() throws InvalidMailFormatException, IOException, InvalidPhoneNrFormatException, InvalidInputException {
+        String phoneNr = buff.readLine();
+        this.checkNull(phoneNr);
+        this.checkPhoneNrLength(phoneNr);
+        this.checkPhoneNrFormat(phoneNr);
         return phoneNr;
     }
 
-    private String setDescription() throws InvalidInputException, IOException {
+    private String checkDescription() throws InvalidInputException, IOException {
         String description = buff.readLine();
-        if (null == description) {
-            throw new InvalidInputException();
-        }
+        this.checkNull(description);
         return description;
     }
 
     private void editProfile() throws InvalidInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
         this.setUser();
-        String email = setEmail();
-        String phoneNr = setPhoneNr();
-        String description = setDescription();
-
+        String email = checkEmail();
+        String phoneNr = checkPhoneNr();
+        String description = checkDescription();
         users.get(userId).editProfile(email, phoneNr, description);
-
     }
 
     private void seeProfile() throws ProfileNotSetException {
@@ -200,17 +198,15 @@ public class Twitter {
         int i = getUserId(" " + name2 + " ");
         if (i == -1) {
             throw new InvalidUserException(name2);
-        } else {
-            users.get(userId).removeFollower(users.get(i));
         }
+        users.get(userId).removeFollower(users.get(i));
     }
 
     private void showPersonalPosts() throws InvalidUserException {
         this.setUser();
         if (userId == -1) {
             throw new InvalidUserException(name);
-        } else {
-            users.get(userId).showPersonalPosts();
         }
+        users.get(userId).showPersonalPosts();
     }
 }
