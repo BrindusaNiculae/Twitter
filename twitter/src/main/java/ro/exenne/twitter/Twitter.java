@@ -11,7 +11,6 @@ import java.io.IOException;
 public class Twitter {
 
     private final Users users;
-    private Command command;
     private String[] words;
     private final BufferedReader buff;
 
@@ -58,12 +57,11 @@ public class Twitter {
 
     }
 
-    public void tweet(String command) throws InvalidUserException,
+    public void tweet(String stringCommand) throws InvalidUserException,
             ProfileNotSetException,
             InvalidPhoneNrFormatException, InvalidMailFormatException, IOException, InvalidInputException {
-        this.command = processCommand(command);
-        this.command.tweet();
+        Command command = processCommand(stringCommand);
+        command.tweet();
     }
 
-    
 }

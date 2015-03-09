@@ -27,6 +27,10 @@ class CommandEditProfile extends Command {
     @Override
     public void tweet() throws InvalidInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
         this.setUser();
+        this.chechAll();
+    }
+
+    private void chechAll() throws InvalidInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
         String email = checkEmail();
         String phoneNr = checkPhoneNr();
         String description = checkDescription();

@@ -7,6 +7,7 @@ package ro.exenne.twitter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  *
@@ -14,15 +15,15 @@ import java.io.IOException;
  */
 public abstract class Command {
 
-    Users users;
-    String[] words;
-    String name;
-    int userId;
-    final BufferedReader buff;
+    protected Users users;
+    protected String[] words;
+    protected String name;
+    protected int userId;
+    protected final BufferedReader buff;
 
     Command(Users users, String[] words, BufferedReader buff) {
         this.users = users;
-        this.words = words;
+        this.words = Arrays.copyOf(words, words.length);
         this.userId = -1;
         this.buff = buff;
     }
@@ -30,7 +31,7 @@ public abstract class Command {
     Command(Users users, String[] words) {
         this.buff = null;
         this.users = users;
-        this.words = words;
+        this.words = Arrays.copyOf(words, words.length);
         this.userId = -1;
     }
 
