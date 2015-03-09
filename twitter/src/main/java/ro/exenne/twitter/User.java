@@ -17,9 +17,6 @@ import java.util.List;
  */
 public class User {
 
-    private static final int NANO_TO_SEC = 1000000;
-    private static final int SEC_OR_MIN = 60;
-
     private final String name;
     private final List<TimedPosts> posts;
     private List<TimedPosts> allPosts;
@@ -69,27 +66,22 @@ public class User {
         this.show(posts);
     }
 
-    private void addPosts(List<TimedPosts> allPosts) {
-        for (TimedPosts post : this.posts) {
-            String newPost = this.name + ": " + post.getPost();
-            long time = post.getTime();
-            allPosts.add(new TimedPosts(newPost, time));
+    private void addPostsWithNames(List<TimedPosts> originalPosts,
+            List<TimedPosts> allPosts, String name) {
+        for (TimedPosts post : originalPosts) {
+            boolean add = allPosts.add(new TimedPosts(name + ": "
+                    + post.getPost(), post.getTime()));
         }
     }
 
     private void addFollowersPosts(List<TimedPosts> allPosts) {
         for (User follower : followers) {
-            for (TimedPosts post : follower.getPosts()) {
-                String newPost = follower.getName() + ": " + post.getPost();
-                long time = post.getTime();
-                allPosts.add(new TimedPosts(newPost, time));
-            }
+            addPostsWithNames(follower.getPosts(), allPosts, follower.getName());
         }
     }
 
     private void sortAllPosts(List<TimedPosts> allPosts) {
         Collections.sort(allPosts, new Comparator<TimedPosts>() {
-
             @Override
             public int compare(TimedPosts o1, TimedPosts o2) {
                 return (int) (o1.getTime() - o2.getTime());
@@ -99,61 +91,64 @@ public class User {
 
     public void showWall() {
         allPosts = new ArrayList<TimedPosts>();
-        this.addPosts(allPosts);
+        this.addPostsWithNames(this.posts, allPosts, this.name);
         this.addFollowersPosts(allPosts);
         this.sortAllPosts(allPosts);
         this.show(allPosts);
     }
 
+    private void showProfileToOutput() {
+        out.println("User " + this.getName() + " has the following info:");
+        out.println("    -Email: " + profile.getEmail());
+        out.println("    -Telephone nr: " + profile.getPhone());
+        out.println("    -Description: " + profile.getDescription());
+    }
+
     public void showProfile() throws ProfileNotSetException {
-        String exceptionGenerator = "";
-        if (profile.getEmail().equals(exceptionGenerator)) {
+        if (profile.getEmail().equals("")) {
             throw new ProfileNotSetException();
         } else {
-            out.println("User " + this.getName() + " has the following info:");
-            out.println("    -Email: " + profile.getEmail());
-            out.println("    -Telephone nr: " + profile.getPhone());
-            out.println("    -Description: " + profile.getDescription());
+            this.showProfileToOutput();
         }
     }
 
     private void show(List<TimedPosts> postsList) {
         for (TimedPosts post : postsList) {
-            long elapsedTimeInSec = (System.nanoTime() - post.getTime()) / NANO_TO_SEC;
-            if (elapsedTimeInSec < SEC_OR_MIN) {
-                int elapsedTime = (int) elapsedTimeInSec;
-                out.println(post.getPost() + "(" + elapsedTime
-                        + " seconds ago)");
-            } else {
-                int elapsedTime = (int) (elapsedTimeInSec / SEC_OR_MIN);
-                out.println(post.getPost() + "(" + elapsedTime
-                        + " minutes ago)");
+            post.showSelf(out);
+        }
+    }
+
+    private void showPeopleYouMightKnow(List<String> people) {
+        out.println("Dear " + this.getName() + ":");
+        for (String s : people) {
+            out.println(s);
+        }
+    }
+
+    private boolean alreadyInList(List<String> people, String name) {
+        for (String aux : people) {
+            if (aux.contains(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void editPeopleYouMightKnowList(List<String> people) {
+        for (User user : followers) {
+            for (User personYouMightKnow : user.getFollowers()) {
+                if (!personYouMightKnow.getName().equals(this.getName())) {
+                    if (!alreadyInList(people, personYouMightKnow.getName())) {
+                        people.add("You might know: " + personYouMightKnow.getName() + ".");
+                    }
+                }
             }
         }
     }
 
     public void getPeopleYouMightKnow() {
-        ArrayList<String> ppl;
-        ppl = new ArrayList<String>();
-        for (User user : followers) {
-            for (User personYouMightKnow : user.getFollowers()) {
-                if (!personYouMightKnow.getName().equals(this.getName())) {
-                    boolean alreadyAdded = false;
-                    for (String aux : ppl) {
-                        if (aux.contains(personYouMightKnow.getName())) {
-                            alreadyAdded = true;
-                        }
-                    }
-                    if (!alreadyAdded) {
-                        ppl.add("You might know: " + personYouMightKnow.getName() + ".");
-                    }
-                }
-            }
-        }
-
-        out.println("Dear " + this.getName() + ":");
-        for (String s : ppl) {
-            out.println(s);
-        }
+        List<String> people = new ArrayList<String>();
+        this.editPeopleYouMightKnowList(people);
+        this.showPeopleYouMightKnow(people);
     }
 }
