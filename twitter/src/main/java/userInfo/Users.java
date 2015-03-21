@@ -31,5 +31,4 @@ public class Users {
     public User getUser(int userId) {
         return users.get(userId);
     }
-
 }
