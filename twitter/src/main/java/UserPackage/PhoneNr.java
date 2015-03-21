@@ -20,8 +20,17 @@ public class PhoneNr {
     private static final int MAX_LEN = 10;
     private String phoneNr;
 
-    public void setPhoneNr(String phoneNr) {
-        this.phoneNr = phoneNr;
+    PhoneNr() {
+        phoneNr = new String();
+    }
+
+    public void setPhoneNr(BufferedReader buff) throws IOException, InvalidMailFormatException, InvalidPhoneNrFormatException, InvalidInputException {
+        phoneNr = buff.readLine();
+        this.checkPhoneNr();
+    }
+
+    String getPhoneNr() {
+        return this.phoneNr;
     }
 
     private void checkPhoneNrLength() throws InvalidPhoneNrFormatException {
@@ -38,17 +47,11 @@ public class PhoneNr {
         }
     }
 
-    public void checkPhoneNr(BufferedReader buff) throws InvalidMailFormatException, IOException, InvalidPhoneNrFormatException, InvalidInputException {
-        phoneNr = buff.readLine();
+    private void checkPhoneNr() throws InvalidMailFormatException, IOException, InvalidPhoneNrFormatException, InvalidInputException {
         if (null == phoneNr) {
             throw new InvalidInputException();
         }
         this.checkPhoneNrLength();
         this.checkPhoneNrFormat();
     }
-
-    String getPhoneNr() {
-        return this.phoneNr;
-    }
-
 }

@@ -20,15 +20,20 @@ public class Email {
     private String email;
 
     Email() {
-        email = "";
+        email = new String();
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void checkEmail(BufferedReader buff) throws IOException, InvalidInputException, InvalidMailFormatException {
+    public void setEmail(BufferedReader buff) throws IOException, InvalidInputException, InvalidMailFormatException {
         this.email = buff.readLine();
+        this.checkEmail();
+    }
+
+    String getEmail() {
+        return this.email;
+    }
+
+    private void checkEmail() throws IOException, InvalidInputException, InvalidMailFormatException {
+
         if (null == this.email) {
             throw new InvalidInputException();
         }
@@ -46,9 +51,4 @@ public class Email {
             throw new ProfileNotSetException();
         }
     }
-
-    String getEmail() {
-        return this.email;
-    }
-
 }

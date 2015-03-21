@@ -17,12 +17,16 @@ public class Description {
 
     private String description;
 
-    public void setDescription(String description) {
-        this.description = description;
+    Description() {
+        description = new String();
     }
 
-    public void checkDescription(BufferedReader buff) throws InvalidInputException, IOException {
+    public void setDescription(BufferedReader buff) throws IOException, InvalidInputException {
         description = buff.readLine();
+        this.checkDescription();
+    }
+
+    private void checkDescription() throws InvalidInputException, IOException {
         if (null == description) {
             throw new InvalidInputException();
         }

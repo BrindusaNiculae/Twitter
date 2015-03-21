@@ -29,18 +29,6 @@ public class UserProfile {
         description = new Description();
     }
 
-    public void setEmail(String mail) {
-        email.setEmail(mail);
-    }
-
-    public void setPhone(String tel) {
-        phoneNr.setPhoneNr(tel);
-    }
-
-    public void setDescription(String descr) {
-        description.setDescription(descr);
-    }
-
     public void showProfileToOutput(PrintStream out, String name) {
         out.println("User " + name + " has the following info:");
         out.println("    -Email: " + email.getEmail());
@@ -49,9 +37,9 @@ public class UserProfile {
     }
 
     public void editSelf(BufferedReader buff) throws InvalidInputException, InvalidMailFormatException, IOException, InvalidPhoneNrFormatException {
-        email.checkEmail(buff);
-        phoneNr.checkPhoneNr(buff);
-        description.checkDescription(buff);
+        email.setEmail(buff);
+        phoneNr.setPhoneNr(buff);
+        description.setDescription(buff);
     }
 
      public void checkProfileSet() throws ProfileNotSetException {
