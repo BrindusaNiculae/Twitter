@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ro.exenne.twitter;
+package UserPackage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ public class Followers {
         }
     }
 
-    void editPeopleYouMightKnowList(List<String> people, String name) {
+    public void editPeopleYouMightKnowList(List<String> people, String name) {
         for (User user : followers) {
             checkIfNotRepeat(people, user, name);
         }

@@ -19,7 +19,7 @@ public class TimedPosts {
     private final String post;
     private final Long time;
 
-    TimedPosts(String post, long time) {
+    public TimedPosts(String post, long time) {
         this.post = post;
         this.time = time;
     }

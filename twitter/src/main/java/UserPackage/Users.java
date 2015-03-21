@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ro.exenne.twitter;
+package UserPackage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class Users {
 
     private final List<User> users;
 
-    Users() {
+    public Users() {
         users = new ArrayList<User>();
     }
 
@@ -24,11 +24,11 @@ public class Users {
         return users;
     }
 
-    void addUser(User temp) {
+    public void addUser(User temp) {
         users.add(temp);
     }
 
-    User getUser(int userId) {
+    public User getUser(int userId) {
         return users.get(userId);
     }
 

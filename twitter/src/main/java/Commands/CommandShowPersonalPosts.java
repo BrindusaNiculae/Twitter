@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ro.exenne.twitter;
+package Commands;
+
+import Exceptions.InvalidUserException;
+import UserPackage.Users;
 
 /**
  *
  * @author Brindusa
  */
-class CommandShowPersonalPosts extends Command {
+public class CommandShowPersonalPosts extends Command {
 
     public CommandShowPersonalPosts(Users users, String[] words) {
         super(users, words);

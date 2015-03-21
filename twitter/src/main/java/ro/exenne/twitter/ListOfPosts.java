@@ -5,6 +5,7 @@
  */
 package ro.exenne.twitter;
 
+import UserPackage.User;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,7 +20,7 @@ public class ListOfPosts {
 
     private final List<TimedPosts> posts;
 
-    ListOfPosts() {
+    public ListOfPosts() {
         posts = new ArrayList<TimedPosts>();
     }
 
@@ -37,26 +38,33 @@ public class ListOfPosts {
         }
     }
 
-    public void addPostsWithNames(ListOfPosts originalPosts, String name) {
+    private void addPostsWithNames(ListOfPosts originalPosts, String name) {
         for (TimedPosts post : originalPosts.getPosts()) {
             this.addPost(new TimedPosts(name + ": "
                     + post.getPost(), post.getTime()));
         }
     }
 
-    public void addFollowersPosts(List<User> followers) {
+    private void addFollowersPosts(List<User> followers) {
         for (User follower : followers) {
             this.addPostsWithNames(follower.getPosts(), follower.getName());
         }
     }
 
-    public void sortAllPosts() {
+    private void sortAllPosts() {
         Collections.sort(this.getPosts(), new Comparator<TimedPosts>() {
             @Override
             public int compare(TimedPosts o1, TimedPosts o2) {
                 return (int) (o1.getTime() - o2.getTime());
             }
         });
+    }
+
+    public void showSelfToWall(ListOfPosts posts, String name, List<User> followers, PrintStream out) {
+        this.addPostsWithNames(posts, name);
+        this.addFollowersPosts(followers);
+        this.sortAllPosts();
+        this.show(out);
     }
 
 }

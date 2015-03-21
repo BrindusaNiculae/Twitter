@@ -1,10 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
+/*To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and o7en the template in the editor.
  */
 package ro.exenne.twitter;
 
+import UserPackage.Users;
+import Exceptions.InvalidMailFormatException;
+import Exceptions.ProfileNotSetException;
+import Exceptions.InvalidUserException;
+import Exceptions.InvalidInputException;
+import Exceptions.InvalidPhoneNrFormatException;
+import Commands.CommandSeeAnotherProfile;
+import Commands.CommandEditProfile;
+import Commands.CommandUnfollow;
+import Commands.Command;
+import Commands.CommandFollow;
+import Commands.CommandShowPersonalPosts;
+import Commands.CommandPeopleYouMihgtKnow;
+import Commands.CommandSeeProfile;
+import Commands.CommandShowWall;
+import Commands.CommandPost;
 import java.io.BufferedReader;
 import java.io.IOException;
 

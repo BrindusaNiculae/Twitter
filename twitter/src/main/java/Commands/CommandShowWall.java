@@ -3,22 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ro.exenne.twitter;
+package Commands;
+
+import UserPackage.Users;
 
 /**
  *
  * @author Brindusa
  */
-class CommandPeopleYouMihgtKnow extends Command {
+public class CommandShowWall extends Command {
 
-    public CommandPeopleYouMihgtKnow(Users users, String[] words) {
+    public CommandShowWall(Users users, String[] words) {
         super(users, words);
     }
 
     @Override
     public void tweet() {
         this.setUser();
-        users.getUser(userId).getPeopleYouMightKnow();
+        users.getUser(userId).showWall();
     }
 
 }

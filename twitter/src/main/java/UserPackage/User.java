@@ -3,11 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ro.exenne.twitter;
+package UserPackage;
 
+import Exceptions.InvalidInputException;
+import Exceptions.InvalidMailFormatException;
+import Exceptions.InvalidPhoneNrFormatException;
+import Exceptions.ProfileNotSetException;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import ro.exenne.twitter.ListOfPosts;
+import ro.exenne.twitter.TimedPosts;
 
 /**
  *
@@ -21,7 +29,7 @@ public class User {
     private final UserProfile profile;
     private final PrintStream out = System.out;
 
-    User(String name) {
+    public User(String name) {
         this.name = name;
         posts = new ListOfPosts();
         followers = new Followers();
@@ -52,31 +60,22 @@ public class User {
         followers.removeFollower(user);
     }
 
-    public void editProfile(String email, String phoneNr, String description) {
-        profile.edit(email, phoneNr, description);
-    }
-
     public void showPersonalPosts() {
         posts.show(out);
     }
 
     public void showWall() {
         ListOfPosts allPosts = new ListOfPosts();
-        allPosts.addPostsWithNames(this.posts, this.name);
-        allPosts.addFollowersPosts(this.followers.getFollowers());
-        allPosts.sortAllPosts();
-        allPosts.show(out);
+        allPosts.showSelfToWall(this.posts, this.name, this.followers.getFollowers(), out);
     }
 
     public void showProfile() throws ProfileNotSetException {
-        if (profile.getEmail().equals("")) {
-            throw new ProfileNotSetException();
-        }
-        profile.showProfileToOutput(out, this.getName());
+        profile.checkProfileSet();
+        profile.showProfileToOutput(out, this.name);
     }
 
     private void showPeopleYouMightKnow(List<String> people) {
-        out.println("Dear " + this.getName() + ":");
+        out.println("Dear " + this.name + ":");
         for (String s : people) {
             out.println(s);
         }
@@ -84,7 +83,11 @@ public class User {
 
     public void getPeopleYouMightKnow() {
         List<String> people = new ArrayList<String>();
-        followers.editPeopleYouMightKnowList(people, this.getName());
+        followers.editPeopleYouMightKnowList(people, this.name);
         this.showPeopleYouMightKnow(people);
+    }
+
+    public void setBuffForProfileEdit(BufferedReader buff) throws InvalidInputException, InvalidMailFormatException, IOException, InvalidPhoneNrFormatException {
+        profile.editSelf(buff);
     }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ro.exenne.twitter;
+package Exceptions;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,12 +12,11 @@ import java.util.logging.Logger;
  *
  * @author Brindu
  */
-public class InvalidUserException extends Exception {
+public class InvalidInputException extends Exception {
 
-    InvalidUserException(String name) {
+    public InvalidInputException() {
         super();
         final Logger log = Logger.getLogger(getClass().getName());
-        log.log(Level.SEVERE, "Invalid user " + name
-                + " please enter a valid user", this);
+        log.log(Level.SEVERE, "The format of the input is not valid", this);
     }
 }

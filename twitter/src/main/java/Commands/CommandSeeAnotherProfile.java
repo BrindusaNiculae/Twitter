@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ro.exenne.twitter;
+package Commands;
+
+import Exceptions.InvalidUserException;
+import Exceptions.ProfileNotSetException;
+import UserPackage.Users;
 
 /**
  *
  * @author Brindusa
  */
-class CommandSeeAnotherProfile extends Command {
+public class CommandSeeAnotherProfile extends Command {
 
     public CommandSeeAnotherProfile(Users users, String[] words) {
         super(users, words);

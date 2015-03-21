@@ -3,11 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ro.exenne.twitter;
+package Commands;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
+import Exceptions.InvalidInputException;
+import Exceptions.InvalidMailFormatException;
+import Exceptions.InvalidPhoneNrFormatException;
+import Exceptions.InvalidUserException;
+import Exceptions.ProfileNotSetException;
+import UserPackage.User;
+import UserPackage.Users;
 
 /**
  *
@@ -35,7 +42,7 @@ public abstract class Command {
         this.userId = -1;
     }
 
-    public int getUserId(String name) {
+    protected int getUserId(String name) {
 
         for (int i = 0; i < users.getUsers().size(); i++) {
             User user = users.getUser(i);
@@ -47,7 +54,7 @@ public abstract class Command {
         return -1;
     }
 
-    public void setUser() {
+    protected void setUser() {
         name = " " + words[0] + " ";
         userId = getUserId(name);
     }
