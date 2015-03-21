@@ -14,8 +14,8 @@ import UserPackage.Users;
  */
 public class CommandUnfollow extends Command {
 
-    public CommandUnfollow(Users users, String[] words) {
-        super(users, words);
+    public CommandUnfollow(Users users) {
+        super(users);
     }
 
     @Override

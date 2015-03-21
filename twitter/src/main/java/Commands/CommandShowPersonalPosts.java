@@ -14,8 +14,8 @@ import UserPackage.Users;
  */
 public class CommandShowPersonalPosts extends Command {
 
-    public CommandShowPersonalPosts(Users users, String[] words) {
-        super(users, words);
+    public CommandShowPersonalPosts(Users users) {
+        super(users);
     }
 
     @Override

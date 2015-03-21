@@ -11,10 +11,10 @@ import UserPackage.Users;
  *
  * @author Brindusa
  */
-public class CommandPeopleYouMihgtKnow extends Command {
+public class CommandPeopleYouMightKnow extends Command {
 
-    public CommandPeopleYouMihgtKnow(Users users, String[] words) {
-        super(users, words);
+    public CommandPeopleYouMightKnow(Users users) {
+        super(users);
     }
 
     @Override

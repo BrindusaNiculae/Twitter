@@ -35,10 +35,10 @@ public abstract class Command {
         this.buff = buff;
     }
 
-    Command(Users users, String[] words) {
+    Command(Users users) {
         this.buff = null;
         this.users = users;
-        this.words = Arrays.copyOf(words, words.length);
+        this.words = new String[10];
         this.userId = -1;
     }
 
@@ -62,4 +62,9 @@ public abstract class Command {
     public abstract void tweet() throws InvalidUserException,
             ProfileNotSetException, InvalidInputException,
             InvalidMailFormatException, InvalidPhoneNrFormatException, IOException;
+
+    public void setWords(String[] words) {
+        this.words = Arrays.copyOf(words, words.length);
+    }
+
 }

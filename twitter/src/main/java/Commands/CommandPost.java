@@ -15,8 +15,8 @@ import UserPackage.Users;
  */
 public class CommandPost extends Command {
 
-    public CommandPost(Users users, String[] words) {
-        super(users, words);
+    public CommandPost(Users users) {
+        super(users);
     }
 
     @Override

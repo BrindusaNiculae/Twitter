@@ -14,8 +14,8 @@ import UserPackage.Users;
  */
 public class CommandFollow extends Command {
 
-    public CommandFollow(Users users, String[] words) {
-        super(users, words);
+    public CommandFollow(Users users) {
+        super(users);
     }
 
     @Override

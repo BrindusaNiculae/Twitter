@@ -14,8 +14,8 @@ import UserPackage.Users;
  */
 public class CommandSeeProfile extends Command {
 
-    public CommandSeeProfile(Users users, String[] words) {
-        super(users, words);
+    public CommandSeeProfile(Users users) {
+        super(users);
     }
 
     @Override

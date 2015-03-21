@@ -13,8 +13,8 @@ import UserPackage.Users;
  */
 public class CommandShowWall extends Command {
 
-    public CommandShowWall(Users users, String[] words) {
-        super(users, words);
+    public CommandShowWall(Users users) {
+        super(users);
     }
 
     @Override
