@@ -27,10 +27,10 @@ public class Twitter {
     private static final List<String> COMM_IDENTIFIER = Arrays.asList("->", " follows ",
             " wall", " unfollow ", " see profile", " see ",
             " people you might know");
-    private static final List<String> COMM_CLASS = Arrays.asList("commands.CommandPost",
-            "commands.CommandFollow", "commands.CommandShowWall", "commands.CommandUnfollow",
-            "commands.CommandSeeProfile", "commands.CommandSeeAnotherProfile",
-            "commands.CommandPeopleYouMightKnow");
+    private static final List<String> COMM_CLASS = Arrays.asList("commandsPackage.CommandPost",
+            "commandsPackage.CommandFollow", "commandsPackage.CommandShowWall", "commandsPackage.CommandUnfollow",
+            "commandsPackage.CommandSeeProfile", "commandsPackage.CommandSeeAnotherProfile",
+            "commandsPackage.CommandPeopleYouMightKnow");
 
     Twitter(BufferedReader buff) {
         this.buff = buff;
