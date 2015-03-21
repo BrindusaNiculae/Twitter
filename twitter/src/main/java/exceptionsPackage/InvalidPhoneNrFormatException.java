@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Exceptions;
+package exceptionsPackage;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,12 +12,12 @@ import java.util.logging.Logger;
  *
  * @author Brindu
  */
-public class ProfileNotSetException extends Exception {
+public class InvalidPhoneNrFormatException extends Exception {
 
-    public ProfileNotSetException() {
+    public InvalidPhoneNrFormatException() {
         super();
         final Logger log = Logger.getLogger(getClass().getName());
-        log.log(Level.SEVERE, "The profile for this user is not set!", this);
+        log.log(Level.SEVERE, "Invalid phone nr!", this);
     }
 
 }

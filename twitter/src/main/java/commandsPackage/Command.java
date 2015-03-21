@@ -3,25 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Commands;
+package commandsPackage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
-import Exceptions.InvalidInputException;
-import Exceptions.InvalidMailFormatException;
-import Exceptions.InvalidPhoneNrFormatException;
-import Exceptions.InvalidUserException;
-import Exceptions.ProfileNotSetException;
-import UserPackage.User;
-import UserPackage.Users;
+import exceptionsPackage.InvalidInputException;
+import exceptionsPackage.InvalidMailFormatException;
+import exceptionsPackage.InvalidPhoneNrFormatException;
+import exceptionsPackage.InvalidUserException;
+import exceptionsPackage.ProfileNotSetException;
+import userInfo.User;
+import userInfo.Users;
 
 /**
  *
  * @author Brindusa
  */
 public abstract class Command {
-
+    private static final int WORDS_SIZE = 10;
     protected Users users;
     protected String[] words;
     protected String name;
@@ -38,7 +38,7 @@ public abstract class Command {
     Command(Users users) {
         this.buff = null;
         this.users = users;
-        this.words = new String[10];
+        this.words = new String[WORDS_SIZE];
         this.userId = -1;
     }
 

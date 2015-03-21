@@ -4,15 +4,15 @@
  */
 package ro.exenne.twitter;
 
-import UserPackage.Users;
-import Exceptions.InvalidMailFormatException;
-import Exceptions.ProfileNotSetException;
-import Exceptions.InvalidUserException;
-import Exceptions.InvalidInputException;
-import Exceptions.InvalidPhoneNrFormatException;
-import Commands.CommandEditProfile;
-import Commands.Command;
-import Commands.CommandShowPersonalPosts;
+import userInfo.Users;
+import exceptionsPackage.InvalidMailFormatException;
+import exceptionsPackage.ProfileNotSetException;
+import exceptionsPackage.InvalidUserException;
+import exceptionsPackage.InvalidInputException;
+import exceptionsPackage.InvalidPhoneNrFormatException;
+import commandsPackage.CommandEditProfile;
+import commandsPackage.Command;
+import commandsPackage.CommandShowPersonalPosts;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -24,22 +24,24 @@ public class Twitter {
     private final Users users;
     private String[] words;
     private final BufferedReader buff;
-    private final static List<String> commandIdentifier = Arrays.asList("->", " follows ",
+    private static final List<String> COMM_IDENTIFIER = Arrays.asList("->", " follows ",
             " wall", " unfollow ", " see profile", " see ",
             " people you might know");
-    private final static List<String> commandClass = Arrays.asList("Commands.CommandPost",
-            "Commands.CommandFollow", "Commands.CommandShowWall", "Commands.CommandUnfollow",
-            "Commands.CommandSeeProfile", "Commands.CommandSeeAnotherProfile",
-            "Commands.CommandPeopleYouMightKnow");
+    private static final List<String> COMM_CLASS = Arrays.asList("commands.CommandPost",
+            "commands.CommandFollow", "commands.CommandShowWall", "commands.CommandUnfollow",
+            "commands.CommandSeeProfile", "commands.CommandSeeAnotherProfile",
+            "commands.CommandPeopleYouMightKnow");
 
     Twitter(BufferedReader buff) {
         this.buff = buff;
         users = new Users();
     }
 
-    private Command initialize(String command, int index) throws InvalidUserException, ProfileNotSetException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException, InvalidInputException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException {
-        words = command.split(commandIdentifier.get(index));
-        return (Command) Class.forName(commandClass.get(index)).getConstructor(UserPackage.Users.class).newInstance(users);
+    private Command initialize(String command, int index) throws ClassNotFoundException,
+            NoSuchMethodException, InstantiationException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException {
+        words = command.split(COMM_IDENTIFIER.get(index));
+        return (Command) Class.forName(COMM_CLASS.get(index)).getConstructor(userInfo.Users.class).newInstance(users);
 
     }
 
@@ -53,9 +55,11 @@ public class Twitter {
         return new CommandShowPersonalPosts(users);
     }
 
-    private Command processCommand(String command) throws InvalidUserException, ProfileNotSetException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException, InvalidInputException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException {
-        for (int i = 0; i < commandIdentifier.size(); i++) {
-            if (command.contains(commandIdentifier.get(i))) {
+    private Command processCommand(String command) throws ClassNotFoundException,
+            NoSuchMethodException, InstantiationException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException {
+        for (int i = 0; i < COMM_IDENTIFIER.size(); i++) {
+            if (command.contains(COMM_IDENTIFIER.get(i))) {
                 return initialize(command, i);
             }
         }
@@ -65,9 +69,10 @@ public class Twitter {
         return initializeShow(command);
     }
 
-    public void tweet(String stringCommand) throws InvalidUserException,
-            ProfileNotSetException,
-            InvalidPhoneNrFormatException, InvalidMailFormatException, IOException, InvalidInputException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException {
+    public void tweet(String stringCommand) throws ClassNotFoundException,
+            NoSuchMethodException, InstantiationException, IllegalAccessException,
+            IllegalArgumentException, InvocationTargetException, InvalidUserException, ProfileNotSetException, InvalidInputException, InvalidMailFormatException,
+            InvalidPhoneNrFormatException, IOException {
         Command command = processCommand(stringCommand);
         command.setWords(words);
         command.tweet();

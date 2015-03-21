@@ -5,7 +5,7 @@
  */
 package ro.exenne.twitter;
 
-import UserPackage.User;
+import userInfo.User;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,8 +24,8 @@ public class ListOfPosts {
         posts = new ArrayList<TimedPosts>();
     }
 
-    public void addPost(TimedPosts post) {
-        posts.add(post);
+    public void addPost(String post, long time) {
+        posts.add(new TimedPosts(post, time));
     }
 
     public List<TimedPosts> getPosts() {
@@ -40,8 +40,8 @@ public class ListOfPosts {
 
     private void addPostsWithNames(ListOfPosts originalPosts, String name) {
         for (TimedPosts post : originalPosts.getPosts()) {
-            this.addPost(new TimedPosts(name + ": "
-                    + post.getPost(), post.getTime()));
+            this.addPost(name + ": "
+                    + post.getPost(), post.getTime());
         }
     }
 

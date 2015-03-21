@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserPackage;
+package userInfo;
 
-import Exceptions.InvalidInputException;
-import Exceptions.InvalidMailFormatException;
-import Exceptions.ProfileNotSetException;
+import exceptionsPackage.InvalidInputException;
+import exceptionsPackage.InvalidMailFormatException;
+import exceptionsPackage.ProfileNotSetException;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class Email {
     private String email;
 
     Email() {
-        email = new String();
+        email = "";
     }
 
     public void setEmail(BufferedReader buff) throws IOException, InvalidInputException, InvalidMailFormatException {

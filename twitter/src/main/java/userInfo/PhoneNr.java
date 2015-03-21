@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserPackage;
+package userInfo;
 
-import Exceptions.InvalidInputException;
-import Exceptions.InvalidMailFormatException;
-import Exceptions.InvalidPhoneNrFormatException;
+import exceptionsPackage.InvalidInputException;
+import exceptionsPackage.InvalidMailFormatException;
+import exceptionsPackage.InvalidPhoneNrFormatException;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -19,10 +19,6 @@ public class PhoneNr {
 
     private static final int MAX_LEN = 10;
     private String phoneNr;
-
-    PhoneNr() {
-        phoneNr = new String();
-    }
 
     public void setPhoneNr(BufferedReader buff) throws IOException, InvalidMailFormatException, InvalidPhoneNrFormatException, InvalidInputException {
         phoneNr = buff.readLine();

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Exceptions;
+package exceptionsPackage;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,13 +12,12 @@ import java.util.logging.Logger;
  *
  * @author Brindu
  */
-public class InvalidMailFormatException extends Exception {
+public class InvalidUserException extends Exception {
 
-    public InvalidMailFormatException() {
+    public InvalidUserException(String name) {
         super();
         final Logger log = Logger.getLogger(getClass().getName());
-        log.log(Level.SEVERE, "The format of the email is invalid. "
-                + "Enter a valid email address", this);
+        log.log(Level.SEVERE, "Invalid user " + name
+                + " please enter a valid user", this);
     }
-
 }

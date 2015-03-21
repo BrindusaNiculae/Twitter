@@ -3,19 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserPackage;
+package userInfo;
 
-import Exceptions.InvalidInputException;
-import Exceptions.InvalidMailFormatException;
-import Exceptions.InvalidPhoneNrFormatException;
-import Exceptions.ProfileNotSetException;
+import exceptionsPackage.InvalidInputException;
+import exceptionsPackage.InvalidMailFormatException;
+import exceptionsPackage.InvalidPhoneNrFormatException;
+import exceptionsPackage.ProfileNotSetException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import ro.exenne.twitter.ListOfPosts;
-import ro.exenne.twitter.TimedPosts;
 
 /**
  *
@@ -45,7 +44,7 @@ public class User {
     }
 
     public void addPost(String post, long time) {
-        this.posts.addPost(new TimedPosts(post, time));
+        this.posts.addPost(post, time);
     }
 
     public Followers getFollowers() {

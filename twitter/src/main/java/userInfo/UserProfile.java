@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserPackage;
+package userInfo;
 
-import Exceptions.InvalidInputException;
-import Exceptions.InvalidMailFormatException;
-import Exceptions.InvalidPhoneNrFormatException;
-import Exceptions.ProfileNotSetException;
+import exceptionsPackage.InvalidInputException;
+import exceptionsPackage.InvalidMailFormatException;
+import exceptionsPackage.InvalidPhoneNrFormatException;
+import exceptionsPackage.ProfileNotSetException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -19,9 +19,9 @@ import java.io.PrintStream;
  */
 public class UserProfile {
     
-    private Email email;
-    private PhoneNr phoneNr;
-    private Description description;
+    private final Email email;
+    private final PhoneNr phoneNr;
+    private final Description description;
 
     UserProfile() {
         email = new Email();

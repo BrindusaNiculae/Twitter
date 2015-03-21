@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Commands;
+package commandsPackage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import Exceptions.InvalidInputException;
-import Exceptions.InvalidMailFormatException;
-import Exceptions.InvalidPhoneNrFormatException;
-import UserPackage.Users;
+import exceptionsPackage.InvalidInputException;
+import exceptionsPackage.InvalidMailFormatException;
+import exceptionsPackage.InvalidPhoneNrFormatException;
+import userInfo.Users;
 
 /**
  *

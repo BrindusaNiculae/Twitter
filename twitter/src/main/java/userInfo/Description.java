@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package UserPackage;
+package userInfo;
 
-import Exceptions.InvalidInputException;
+import exceptionsPackage.InvalidInputException;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -16,10 +16,6 @@ import java.io.IOException;
 public class Description {
 
     private String description;
-
-    Description() {
-        description = new String();
-    }
 
     public void setDescription(BufferedReader buff) throws IOException, InvalidInputException {
         description = buff.readLine();
