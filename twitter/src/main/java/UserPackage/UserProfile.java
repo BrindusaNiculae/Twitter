@@ -18,90 +18,43 @@ import java.io.PrintStream;
  * @author Brindusa
  */
 public class UserProfile {
-
-    private static final int MAX_LEN = 10;
-    private String email;
-    private String phoneNr;
-    private String description;
+    
+    private Email email;
+    private PhoneNr phoneNr;
+    private Description description;
 
     UserProfile() {
-        email = "";
-        phoneNr = "";
-        description = "";
+        email = new Email();
+        phoneNr = new PhoneNr();
+        description = new Description();
     }
 
     public void setEmail(String mail) {
-        email = mail;
+        email.setEmail(mail);
     }
 
     public void setPhone(String tel) {
-        phoneNr = tel;
+        phoneNr.setPhoneNr(tel);
     }
 
     public void setDescription(String descr) {
-        description = descr;
+        description.setDescription(descr);
     }
 
     public void showProfileToOutput(PrintStream out, String name) {
         out.println("User " + name + " has the following info:");
-        out.println("    -Email: " + this.email);
-        out.println("    -Telephone nr: " + this.phoneNr);
-        out.println("    -Description: " + this.description);
+        out.println("    -Email: " + email.getEmail());
+        out.println("    -Telephone nr: " + phoneNr.getPhoneNr());
+        out.println("    -Description: " + description.getDescription());
     }
 
     public void editSelf(BufferedReader buff) throws InvalidInputException, InvalidMailFormatException, IOException, InvalidPhoneNrFormatException {
-        checkEmail(buff);
-        checkPhoneNr(buff);
-        checkDescription(buff);
+        email.checkEmail(buff);
+        phoneNr.checkPhoneNr(buff);
+        description.checkDescription(buff);
     }
 
-    private void checkEmailFormat() throws InvalidMailFormatException {
-        if (!email.contains("@")) {
-            throw new InvalidMailFormatException();
-        }
-    }
-
-    private void checkEmail(BufferedReader buff) throws InvalidInputException, InvalidMailFormatException, IOException {
-        this.email = buff.readLine();
-        if (null == this.email) {
-            throw new InvalidInputException();
-        }
-        this.checkEmailFormat();
-    }
-
-    private void checkPhoneNrLength() throws InvalidPhoneNrFormatException {
-        if (phoneNr.length() > MAX_LEN) {
-            throw new InvalidPhoneNrFormatException();
-        }
-    }
-
-    private void checkPhoneNrFormat() throws InvalidPhoneNrFormatException {
-        for (char c : phoneNr.toCharArray()) {
-            if (c > '9') {
-                throw new InvalidPhoneNrFormatException();
-            }
-        }
-    }
-
-    private void checkPhoneNr(BufferedReader buff) throws InvalidMailFormatException, IOException, InvalidPhoneNrFormatException, InvalidInputException {
-        phoneNr = buff.readLine();
-        if (null == phoneNr) {
-            throw new InvalidInputException();
-        }
-        this.checkPhoneNrLength();
-        this.checkPhoneNrFormat();
-    }
-
-    private void checkDescription(BufferedReader buff) throws InvalidInputException, IOException {
-        description = buff.readLine();
-        if (null == description) {
-            throw new InvalidInputException();
-        }
-    }
-
-    public void checkProfileSet() throws ProfileNotSetException {
-        if (this.email.equals("")) {
-            throw new ProfileNotSetException();
-        }
+     public void checkProfileSet() throws ProfileNotSetException {
+         email.checkSet();
     }
 }
