@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exceptionsPackage;
+package exceptions;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,13 +12,12 @@ import java.util.logging.Logger;
  *
  * @author Brindu
  */
-public class InvalidMailFormatException extends Exception {
+public class ProfileNotSetException extends Exception {
 
-    public InvalidMailFormatException() {
+    public ProfileNotSetException() {
         super();
         final Logger log = Logger.getLogger(getClass().getName());
-        log.log(Level.SEVERE, "The format of the email is invalid. "
-                + "Enter a valid email address", this);
+        log.log(Level.SEVERE, "The profile for this user is not set!", this);
     }
 
 }

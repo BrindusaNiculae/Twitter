@@ -1,10 +1,10 @@
 package ro.exenne.twitter;
 
-import exceptionsPackage.InvalidMailFormatException;
-import exceptionsPackage.ProfileNotSetException;
-import exceptionsPackage.InvalidUserException;
-import exceptionsPackage.InvalidInputException;
-import exceptionsPackage.InvalidPhoneNrFormatException;
+import exceptions.InvalidMailFormatException;
+import exceptions.ProfileNotSetException;
+import exceptions.InvalidUserException;
+import exceptions.InvalidInputException;
+import exceptions.InvalidPhoneNrFormatException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package commandsPackage;
+package commands;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
-import exceptionsPackage.InvalidInputException;
-import exceptionsPackage.InvalidMailFormatException;
-import exceptionsPackage.InvalidPhoneNrFormatException;
-import exceptionsPackage.InvalidUserException;
-import exceptionsPackage.ProfileNotSetException;
-import userInfo.User;
-import userInfo.Users;
+import exceptions.InvalidInputException;
+import exceptions.InvalidMailFormatException;
+import exceptions.InvalidPhoneNrFormatException;
+import exceptions.InvalidUserException;
+import exceptions.ProfileNotSetException;
+import user_info.User;
+import user_info.Users;
 
 /**
  *

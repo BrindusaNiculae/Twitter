@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package commandsPackage;
+package commands;
 
-import exceptionsPackage.InvalidUserException;
-import userInfo.Users;
+import exceptions.InvalidUserException;
+import user_info.Users;
 
 /**
  *

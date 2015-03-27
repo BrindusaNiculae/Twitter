@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userInfo;
+package user_info;
 
-import exceptionsPackage.InvalidInputException;
-import exceptionsPackage.InvalidMailFormatException;
-import exceptionsPackage.ProfileNotSetException;
+import exceptions.InvalidInputException;
+import exceptions.InvalidMailFormatException;
+import exceptions.ProfileNotSetException;
 import java.io.BufferedReader;
 import java.io.IOException;
 

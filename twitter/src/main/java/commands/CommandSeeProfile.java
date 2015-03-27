@@ -3,24 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package commandsPackage;
+package commands;
 
-import userInfo.Users;
+import exceptions.ProfileNotSetException;
+import user_info.Users;
 
 /**
  *
  * @author Brindusa
  */
-public class CommandPeopleYouMightKnow extends Command {
+public class CommandSeeProfile extends Command {
 
-    public CommandPeopleYouMightKnow(Users users) {
+    public CommandSeeProfile(Users users) {
         super(users);
     }
 
     @Override
-    public void tweet() {
+    public void tweet() throws ProfileNotSetException {
         this.setUser();
-        users.getUser(userId).getPeopleYouMightKnow();
+        users.getUser(userId).showProfile();
     }
 
 }

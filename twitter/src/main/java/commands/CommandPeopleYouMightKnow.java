@@ -3,24 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package commandsPackage;
+package commands;
 
-import userInfo.Users;
+import user_info.Users;
 
 /**
  *
  * @author Brindusa
  */
-public class CommandShowWall extends Command {
+public class CommandPeopleYouMightKnow extends Command {
 
-    public CommandShowWall(Users users) {
+    public CommandPeopleYouMightKnow(Users users) {
         super(users);
     }
 
     @Override
     public void tweet() {
         this.setUser();
-        users.getUser(userId).showWall();
+        users.getUser(userId).getPeopleYouMightKnow();
     }
 
 }

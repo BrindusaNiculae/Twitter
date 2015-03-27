@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exceptionsPackage;
+package exceptions;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,11 +12,12 @@ import java.util.logging.Logger;
  *
  * @author Brindu
  */
-public class InvalidInputException extends Exception {
+public class InvalidPhoneNrFormatException extends Exception {
 
-    public InvalidInputException() {
+    public InvalidPhoneNrFormatException() {
         super();
         final Logger log = Logger.getLogger(getClass().getName());
-        log.log(Level.SEVERE, "The format of the input is not valid", this);
+        log.log(Level.SEVERE, "Invalid phone nr!", this);
     }
+
 }

@@ -4,15 +4,15 @@
  */
 package ro.exenne.twitter;
 
-import userInfo.Users;
-import exceptionsPackage.InvalidMailFormatException;
-import exceptionsPackage.ProfileNotSetException;
-import exceptionsPackage.InvalidUserException;
-import exceptionsPackage.InvalidInputException;
-import exceptionsPackage.InvalidPhoneNrFormatException;
-import commandsPackage.CommandEditProfile;
-import commandsPackage.Command;
-import commandsPackage.CommandShowPersonalPosts;
+import user_info.Users;
+import exceptions.InvalidMailFormatException;
+import exceptions.ProfileNotSetException;
+import exceptions.InvalidUserException;
+import exceptions.InvalidInputException;
+import exceptions.InvalidPhoneNrFormatException;
+import commands.CommandEditProfile;
+import commands.Command;
+import commands.CommandShowPersonalPosts;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -27,10 +27,10 @@ public class Twitter {
     private static final List<String> COMM_IDENTIFIER = Arrays.asList("->", " follows ",
             " wall", " unfollow ", " see profile", " see ",
             " people you might know");
-    private static final List<String> COMM_CLASS = Arrays.asList("commandsPackage.CommandPost",
-            "commandsPackage.CommandFollow", "commandsPackage.CommandShowWall", "commandsPackage.CommandUnfollow",
-            "commandsPackage.CommandSeeProfile", "commandsPackage.CommandSeeAnotherProfile",
-            "commandsPackage.CommandPeopleYouMightKnow");
+    private static final List<String> COMM_CLASS = Arrays.asList("commands.CommandPost",
+            "commands.CommandFollow", "commands.CommandShowWall", "commands.CommandUnfollow",
+            "commands.CommandSeeProfile", "commands.CommandSeeAnotherProfile",
+            "commands.CommandPeopleYouMightKnow");
 
     Twitter(BufferedReader buff) {
         this.buff = buff;
@@ -38,10 +38,9 @@ public class Twitter {
     }
 
     private Command initialize(String command, int index) throws ClassNotFoundException,
-            NoSuchMethodException, InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException {
+            NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         words = command.split(COMM_IDENTIFIER.get(index));
-        return (Command) Class.forName(COMM_CLASS.get(index)).getConstructor(userInfo.Users.class).newInstance(users);
+        return (Command) Class.forName(COMM_CLASS.get(index)).getConstructor(user_info.Users.class).newInstance(users);
 
     }
 

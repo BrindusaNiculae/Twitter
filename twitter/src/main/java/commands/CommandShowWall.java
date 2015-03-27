@@ -3,25 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package commandsPackage;
+package commands;
 
-import exceptionsPackage.ProfileNotSetException;
-import userInfo.Users;
+import user_info.Users;
 
 /**
  *
  * @author Brindusa
  */
-public class CommandSeeProfile extends Command {
+public class CommandShowWall extends Command {
 
-    public CommandSeeProfile(Users users) {
+    public CommandShowWall(Users users) {
         super(users);
     }
 
     @Override
-    public void tweet() throws ProfileNotSetException {
+    public void tweet() {
         this.setUser();
-        users.getUser(userId).showProfile();
+        users.getUser(userId).showWall();
     }
 
 }
