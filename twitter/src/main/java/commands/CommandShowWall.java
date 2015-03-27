@@ -5,15 +5,13 @@
  */
 package commands;
 
-import userinfo.Users;
-
 /**
  *
  * @author Brindusa
  */
 public class CommandShowWall implements Command {
 
-    Operator operator = new Operator();
+    private final Operator operator;
 
     public CommandShowWall(Operator operator) {
         this.operator = operator;

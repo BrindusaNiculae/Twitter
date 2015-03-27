@@ -17,8 +17,8 @@ import exceptions.ProfileNotSetException;
  * @author Brindusa
  */
 public interface Command {
-    
-    public abstract void tweet() throws InvalidUserException,
+
+    void tweet() throws InvalidUserException,
             ProfileNotSetException, InvalidInputException,
             InvalidMailFormatException, InvalidPhoneNrFormatException, IOException;
 }

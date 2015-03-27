@@ -14,7 +14,7 @@ import exceptions.ProfileNotSetException;
  */
 public class CommandSeeAnotherProfile implements Command {
 
-    Operator operator = new Operator();
+    private final Operator operator;
 
     public CommandSeeAnotherProfile(Operator operator) {
         this.operator = operator;
@@ -25,7 +25,7 @@ public class CommandSeeAnotherProfile implements Command {
         operator.setUser();
         int i = operator.getUserId3();
         if (i == -1) {
-            throw new InvalidUserException(operator.getWords()[1]);
+            throw new InvalidUserException(operator.getWordFrom(1));
         } else {
             operator.getUsers().getUser(i).showProfile();
         }

@@ -6,7 +6,6 @@
 package commands;
 
 import exceptions.ProfileNotSetException;
-import userinfo.Users;
 
 /**
  *
@@ -14,7 +13,7 @@ import userinfo.Users;
  */
 public class CommandSeeProfile implements Command {
 
-    Operator operator = new Operator();
+    private final Operator operator;
 
     public CommandSeeProfile(Operator operator) {
         this.operator = operator;

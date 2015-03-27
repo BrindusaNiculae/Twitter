@@ -14,7 +14,7 @@ import userinfo.User;
  */
 public class CommandPost implements Command {
 
-    Operator operator = new Operator();
+    private final Operator operator;
 
     public CommandPost(Operator operator) {
         this.operator = operator;
@@ -26,16 +26,16 @@ public class CommandPost implements Command {
         if (operator.getUserId() == -1) {
             this.addUserAndPost();
         } else {
-            operator.getUsers().getUser(operator.getUserId()).addPost(operator.getWords()[1], System.nanoTime());
+            operator.getUsers().getUser(operator.getUserId()).addPost(operator.getWordFrom(1), System.nanoTime());
         }
     }
 
     private void addUserAndPost() throws InvalidUserException {
-        if (operator.getWords().length == 1) {
-            throw new InvalidUserException(operator.getWords()[0]);
+        if (operator.getWordsLength() == 1) {
+            throw new InvalidUserException(operator.getWordFrom(0));
         }
-        User temp = new User(operator.getWords()[0]);
-        temp.addPost(operator.getWords()[1], System.nanoTime());
+        User temp = new User(operator.getWordFrom(0));
+        temp.addPost(operator.getWordFrom(1), System.nanoTime());
         operator.getUsers().addUser(temp);
     }
 

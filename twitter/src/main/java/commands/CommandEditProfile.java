@@ -16,7 +16,7 @@ import exceptions.InvalidPhoneNrFormatException;
  */
 public class CommandEditProfile implements Command {
 
-    Operator operator = new Operator();
+    private final Operator operator;
 
     public CommandEditProfile(Operator operator) {
         this.operator = operator;

@@ -13,7 +13,7 @@ import exceptions.InvalidUserException;
  */
 public class CommandUnfollow implements Command {
 
-    Operator operator = new Operator();
+    private final Operator operator;
 
     public CommandUnfollow(Operator operator) {
         this.operator = operator;
@@ -24,7 +24,7 @@ public class CommandUnfollow implements Command {
         operator.setUser();
         int i = operator.getUserId2();
         if (i == -1) {
-            throw new InvalidUserException(operator.getWords()[1]);
+            throw new InvalidUserException(operator.getWordFrom(1));
         }
         operator.getUsers().getUser(operator.getUserId()).removeFollower(operator.getUsers().getUser(i));
     }

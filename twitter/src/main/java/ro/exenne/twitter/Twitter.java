@@ -40,7 +40,7 @@ public class Twitter {
     }
 
     private Command initialize(String command, int index) throws ClassNotFoundException,
-            NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         words = command.split(COMM_IDENTIFIER.get(index));
         operator = new Operator(users, words);
         return (Command) Class.forName(COMM_CLASS.get(index)).getConstructor(commands.Operator.class).newInstance(operator);
@@ -61,7 +61,7 @@ public class Twitter {
 
     private Command processCommand(String command) throws ClassNotFoundException,
             NoSuchMethodException, InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException {
+            InvocationTargetException {
         for (int i = 0; i < COMM_IDENTIFIER.size(); i++) {
             if (command.contains(COMM_IDENTIFIER.get(i))) {
                 return initialize(command, i);
@@ -75,7 +75,7 @@ public class Twitter {
 
     public void tweet(String stringCommand) throws ClassNotFoundException,
             NoSuchMethodException, InstantiationException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, InvalidUserException, ProfileNotSetException, InvalidInputException, InvalidMailFormatException,
+            InvocationTargetException, InvalidUserException, ProfileNotSetException, InvalidInputException, InvalidMailFormatException,
             InvalidPhoneNrFormatException, IOException {
         Command command = processCommand(stringCommand);
 

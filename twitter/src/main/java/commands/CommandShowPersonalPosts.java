@@ -13,7 +13,7 @@ import exceptions.InvalidUserException;
  */
 public class CommandShowPersonalPosts implements Command {
 
-    Operator operator = new Operator();
+    private final Operator operator;
 
     public CommandShowPersonalPosts(Operator operator) {
         this.operator = operator;

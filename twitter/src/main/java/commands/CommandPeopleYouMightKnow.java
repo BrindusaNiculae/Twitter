@@ -11,7 +11,7 @@ package commands;
  */
 public class CommandPeopleYouMightKnow implements Command {
 
-    Operator operator = new Operator();
+    private final Operator operator;
 
     public CommandPeopleYouMightKnow(Operator operator) {
         this.operator = operator;

@@ -16,18 +16,11 @@ import userinfo.Users;
  */
 public class Operator {
 
-    private Users users;
-    private String[] words;
+    private final Users users;
+    private final String[] words;
     private String name;
     private int userId;
     private final BufferedReader buff;
-
-    Operator() {
-        this.users = new Users();
-        this.words = null;
-        this.userId = -1;
-        this.buff = null;
-    }
 
     public Operator(Users users, String[] words, BufferedReader buff) {
         this.buff = buff;
@@ -77,8 +70,12 @@ public class Operator {
         return this.getUserId(" " + name2 + " ");
     }
 
-    public String[] getWords() {
-        return this.words;
+    public String getWordFrom(int index) {
+        return this.words[index];
+    }
+    
+    public int getWordsLength(){
+        return this.words.length;
     }
 
     public int getUserId3() {
