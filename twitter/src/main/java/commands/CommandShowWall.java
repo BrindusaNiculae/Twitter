@@ -5,7 +5,7 @@
  */
 package commands;
 
-import user_info.Users;
+import userinfo.Users;
 
 /**
  *

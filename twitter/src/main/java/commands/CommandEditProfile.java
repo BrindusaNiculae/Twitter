@@ -10,7 +10,7 @@ import java.io.IOException;
 import exceptions.InvalidInputException;
 import exceptions.InvalidMailFormatException;
 import exceptions.InvalidPhoneNrFormatException;
-import user_info.Users;
+import userinfo.Users;
 
 /**
  *

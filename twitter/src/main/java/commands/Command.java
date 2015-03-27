@@ -13,8 +13,8 @@ import exceptions.InvalidMailFormatException;
 import exceptions.InvalidPhoneNrFormatException;
 import exceptions.InvalidUserException;
 import exceptions.ProfileNotSetException;
-import user_info.User;
-import user_info.Users;
+import userinfo.User;
+import userinfo.Users;
 
 /**
  *

@@ -5,7 +5,7 @@
  */
 package ro.exenne.twitter;
 
-import user_info.User;
+import userinfo.User;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;

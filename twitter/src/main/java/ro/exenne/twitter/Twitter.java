@@ -4,7 +4,7 @@
  */
 package ro.exenne.twitter;
 
-import user_info.Users;
+import userinfo.Users;
 import exceptions.InvalidMailFormatException;
 import exceptions.ProfileNotSetException;
 import exceptions.InvalidUserException;
@@ -40,7 +40,7 @@ public class Twitter {
     private Command initialize(String command, int index) throws ClassNotFoundException,
             NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         words = command.split(COMM_IDENTIFIER.get(index));
-        return (Command) Class.forName(COMM_CLASS.get(index)).getConstructor(user_info.Users.class).newInstance(users);
+        return (Command) Class.forName(COMM_CLASS.get(index)).getConstructor(userinfo.Users.class).newInstance(users);
 
     }
 

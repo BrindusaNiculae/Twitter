@@ -6,8 +6,8 @@
 package commands;
 
 import exceptions.InvalidUserException;
-import user_info.User;
-import user_info.Users;
+import userinfo.User;
+import userinfo.Users;
 
 /**
  *
