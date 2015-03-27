@@ -73,8 +73,8 @@ public class Operator {
     public String getWordFrom(int index) {
         return this.words[index];
     }
-    
-    public int getWordsLength(){
+
+    public int getWordsLength() {
         return this.words.length;
     }
 
