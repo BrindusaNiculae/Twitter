@@ -11,16 +11,18 @@ import userinfo.Users;
  *
  * @author Brindusa
  */
-public class CommandShowWall extends Command {
+public class CommandShowWall implements Command {
 
-    public CommandShowWall(Users users) {
-        super(users);
+    Operator operator = new Operator();
+
+    public CommandShowWall(Operator operator) {
+        this.operator = operator;
     }
 
     @Override
     public void tweet() {
-        this.setUser();
-        users.getUser(userId).showWall();
+        operator.setUser();
+        operator.getUsers().getUser(operator.getUserId()).showWall();
     }
 
 }

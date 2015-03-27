@@ -6,25 +6,26 @@
 package commands;
 
 import exceptions.InvalidUserException;
-import userinfo.Users;
 
 /**
  *
  * @author Brindusa
  */
-public class CommandShowPersonalPosts extends Command {
+public class CommandShowPersonalPosts implements Command {
 
-    public CommandShowPersonalPosts(Users users) {
-        super(users);
+    Operator operator = new Operator();
+
+    public CommandShowPersonalPosts(Operator operator) {
+        this.operator = operator;
     }
 
     @Override
     public void tweet() throws InvalidUserException {
-        this.setUser();
-        if (userId == -1) {
-            throw new InvalidUserException(name);
+        operator.setUser();
+        if (operator.getUserId() == -1) {
+            throw new InvalidUserException(operator.getName());
         }
-        users.getUser(userId).showPersonalPosts();
+        operator.getUsers().getUser(operator.getUserId()).showPersonalPosts();
     }
 
 }

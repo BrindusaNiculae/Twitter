@@ -5,30 +5,30 @@
  */
 package commands;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import exceptions.InvalidInputException;
 import exceptions.InvalidMailFormatException;
 import exceptions.InvalidPhoneNrFormatException;
-import userinfo.Users;
 
 /**
  *
  * @author Brindusa
  */
-public class CommandEditProfile extends Command {
+public class CommandEditProfile implements Command {
 
-    public CommandEditProfile(Users users, String[] words, BufferedReader buff) {
-        super(users, words, buff);
+    Operator operator = new Operator();
+
+    public CommandEditProfile(Operator operator) {
+        this.operator = operator;
     }
 
     @Override
     public void tweet() throws InvalidInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
-        this.setUser();
+       operator.setUser();
         this.tellProfileToSet();
     }
 
     private void tellProfileToSet() throws InvalidInputException, InvalidMailFormatException, InvalidPhoneNrFormatException, IOException {
-        users.getUser(userId).setBuffForProfileEdit(buff);
+        operator.getUsers().getUser(operator.getUserId()).setBuffForProfileEdit(operator.getBuff());
     }
 }

@@ -7,35 +7,36 @@ package commands;
 
 import exceptions.InvalidUserException;
 import userinfo.User;
-import userinfo.Users;
 
 /**
  *
  * @author Brindusa
  */
-public class CommandPost extends Command {
+public class CommandPost implements Command {
 
-    public CommandPost(Users users) {
-        super(users);
+    Operator operator = new Operator();
+
+    public CommandPost(Operator operator) {
+        this.operator = operator;
     }
 
     @Override
     public void tweet() throws InvalidUserException {
-        this.setUser();
-        if (userId == -1) {
+        operator.setUser();
+        if (operator.getUserId() == -1) {
             this.addUserAndPost();
         } else {
-            users.getUser(userId).addPost(words[1], System.nanoTime());
+            operator.getUsers().getUser(operator.getUserId()).addPost(operator.getWords()[1], System.nanoTime());
         }
     }
 
     private void addUserAndPost() throws InvalidUserException {
-        if (words.length == 1) {
-            throw new InvalidUserException(words[0]);
+        if (operator.getWords().length == 1) {
+            throw new InvalidUserException(operator.getWords()[0]);
         }
-        User temp = new User(words[0]);
-        temp.addPost(words[1], System.nanoTime());
-        users.addUser(temp);
+        User temp = new User(operator.getWords()[0]);
+        temp.addPost(operator.getWords()[1], System.nanoTime());
+        operator.getUsers().addUser(temp);
     }
 
 }

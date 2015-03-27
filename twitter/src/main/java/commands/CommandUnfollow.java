@@ -6,27 +6,26 @@
 package commands;
 
 import exceptions.InvalidUserException;
-import userinfo.Users;
 
 /**
  *
  * @author Brindusa
  */
-public class CommandUnfollow extends Command {
+public class CommandUnfollow implements Command {
 
-    public CommandUnfollow(Users users) {
-        super(users);
+    Operator operator = new Operator();
+
+    public CommandUnfollow(Operator operator) {
+        this.operator = operator;
     }
 
     @Override
     public void tweet() throws InvalidUserException {
-        this.setUser();
-        String name2 = words[1];
-        int i = getUserId(" " + name2 + " ");
+        operator.setUser();
+        int i = operator.getUserId2();
         if (i == -1) {
-            throw new InvalidUserException(name2);
+            throw new InvalidUserException(operator.getWords()[1]);
         }
-        users.getUser(userId).removeFollower(users.getUser(i));
+        operator.getUsers().getUser(operator.getUserId()).removeFollower(operator.getUsers().getUser(i));
     }
-
 }

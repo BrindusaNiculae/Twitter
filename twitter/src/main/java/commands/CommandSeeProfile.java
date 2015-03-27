@@ -12,16 +12,18 @@ import userinfo.Users;
  *
  * @author Brindusa
  */
-public class CommandSeeProfile extends Command {
+public class CommandSeeProfile implements Command {
 
-    public CommandSeeProfile(Users users) {
-        super(users);
+    Operator operator = new Operator();
+
+    public CommandSeeProfile(Operator operator) {
+        this.operator = operator;
     }
 
     @Override
     public void tweet() throws ProfileNotSetException {
-        this.setUser();
-        users.getUser(userId).showProfile();
+        operator.setUser();
+        operator.getUsers().getUser(operator.getUserId()).showProfile();
     }
 
 }

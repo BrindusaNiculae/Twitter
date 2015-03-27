@@ -5,22 +5,22 @@
  */
 package commands;
 
-import userinfo.Users;
-
 /**
  *
  * @author Brindusa
  */
-public class CommandPeopleYouMightKnow extends Command {
+public class CommandPeopleYouMightKnow implements Command {
 
-    public CommandPeopleYouMightKnow(Users users) {
-        super(users);
+    Operator operator = new Operator();
+
+    public CommandPeopleYouMightKnow(Operator operator) {
+        this.operator = operator;
     }
 
     @Override
     public void tweet() {
-        this.setUser();
-        users.getUser(userId).getPeopleYouMightKnow();
+        operator.setUser();
+        operator.getUsers().getUser(operator.getUserId()).getPeopleYouMightKnow();
     }
 
 }

@@ -13,6 +13,7 @@ import exceptions.InvalidPhoneNrFormatException;
 import commands.CommandEditProfile;
 import commands.Command;
 import commands.CommandShowPersonalPosts;
+import commands.Operator;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -24,6 +25,7 @@ public class Twitter {
     private final Users users;
     private String[] words;
     private final BufferedReader buff;
+    private Operator operator;
     private static final List<String> COMM_IDENTIFIER = Arrays.asList("->", " follows ",
             " wall", " unfollow ", " see profile", " see ",
             " people you might know");
@@ -40,18 +42,21 @@ public class Twitter {
     private Command initialize(String command, int index) throws ClassNotFoundException,
             NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         words = command.split(COMM_IDENTIFIER.get(index));
-        return (Command) Class.forName(COMM_CLASS.get(index)).getConstructor(userinfo.Users.class).newInstance(users);
+        operator = new Operator(users, words);
+        return (Command) Class.forName(COMM_CLASS.get(index)).getConstructor(commands.Operator.class).newInstance(operator);
 
     }
 
     private Command initializeEdit(String command) {
         words = command.split(" edit profile");
-        return new CommandEditProfile(users, words, buff);
+        operator = new Operator(users, words, buff);
+        return new CommandEditProfile(operator);
     }
 
     private Command initializeShow(String command) {
         words = command.split(" ");
-        return new CommandShowPersonalPosts(users);
+        operator = new Operator(users, words);
+        return new CommandShowPersonalPosts(operator);
     }
 
     private Command processCommand(String command) throws ClassNotFoundException,
@@ -73,7 +78,7 @@ public class Twitter {
             IllegalArgumentException, InvocationTargetException, InvalidUserException, ProfileNotSetException, InvalidInputException, InvalidMailFormatException,
             InvalidPhoneNrFormatException, IOException {
         Command command = processCommand(stringCommand);
-        command.setWords(words);
+
         command.tweet();
     }
 

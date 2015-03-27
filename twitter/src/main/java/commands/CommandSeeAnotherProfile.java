@@ -7,28 +7,27 @@ package commands;
 
 import exceptions.InvalidUserException;
 import exceptions.ProfileNotSetException;
-import userinfo.Users;
 
 /**
  *
  * @author Brindusa
  */
-public class CommandSeeAnotherProfile extends Command {
+public class CommandSeeAnotherProfile implements Command {
 
-    public CommandSeeAnotherProfile(Users users) {
-        super(users);
+    Operator operator = new Operator();
+
+    public CommandSeeAnotherProfile(Operator operator) {
+        this.operator = operator;
     }
 
     @Override
     public void tweet() throws InvalidUserException, ProfileNotSetException {
-        this.setUser();
-        String name2 = words[1];
-        String[] aux = name2.split(" profile");
-        int i = getUserId(" " + aux[0] + " ");
+        operator.setUser();
+        int i = operator.getUserId3();
         if (i == -1) {
-            throw new InvalidUserException(name2);
+            throw new InvalidUserException(operator.getWords()[1]);
         } else {
-            users.getUser(i).showProfile();
+            operator.getUsers().getUser(i).showProfile();
         }
     }
 
